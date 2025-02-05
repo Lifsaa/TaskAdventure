@@ -17,3 +17,8 @@ Rithvik
 1. As an individual that cares about their health, I would like to try to keep myself on a gym routine and healthy diet so I can improve my overall health.
 2. As a Boy Scout, I would like to volunteer more so I can help the community.
 3. As a college student, I would like to improve my resume, such as by doing projects and getting internships, so I can get a job when I graduate.
+
+Salif
+1. As a social competitor, I want a system that allows me to compete with others in my productivity journey.
+2. As a perfectionist, I want a simple UI, allowing me to smoothly and efficiently without wasting my precious tine.
+3. As a gym bro, I want to keep track of my lifting splits to become the strongest man known to earth.
