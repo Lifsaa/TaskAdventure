@@ -7,3 +7,8 @@ Felipe
 1. As a student, I want to stay on top of my tasks so that I dont procastinate my coursework.
 2. As a gamer I want to gamify and get rewarded for doing tasks so that I am encouraged to do my tasks.
 3. As a forgetful person I want to have somewhere to keep track of my tasks so that I don’t forget what I need to get done.
+
+Rithvik
+1. As an individual that cares about their health, I would like to try to keep myself on a gym routine and healthy diet so I can improve my overall health.
+2. As a Boy Scout, I would like to volunteer more so I can help the community.
+3. As a college student, I would like to improve my resume, such as by doing projects and getting internships, so I can get a job when I graduate.
