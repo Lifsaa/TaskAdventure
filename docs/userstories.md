@@ -10,7 +10,7 @@ Felipe
 
 Hayden
 1. As someone with a busy schedule, I want to be able to view my previously completed tasks so I don't forget them.
-2. As a teenager, I want fun graphics and animations that make the app feel more like a game than a to-do list
+2. As a gamer, I want fun graphics and animations that make the app feel more like a game than a to-do list
 3. As an engineer, I want descriptive tasks that let me adequately describe and plan for my work
 
 Rithvik
