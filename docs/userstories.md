@@ -22,3 +22,8 @@ Salif
 1. As a social competitor, I want a system that allows me to compete with others in my productivity journey.
 2. As a perfectionist, I want a simple UI, allowing me to smoothly and efficiently without wasting my precious time.
 3. As a gym bro, I want to keep track of my lifting splits to become the strongest man known to earth.
+
+Ethan 
+1. As a musician, I want a layout of how many more repetitions I need that I can check off in order to complete my practice.
+2. As a cook, I want to be able to have a list of what stores and items I need to get in order to make my meals that can break down my tasks into smaller ones.
+3. As an artist I want to be able to have a fun design to doing my tasks that feels personal and adjustable 
