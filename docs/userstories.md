@@ -20,5 +20,5 @@ Rithvik
 
 Salif
 1. As a social competitor, I want a system that allows me to compete with others in my productivity journey.
-2. As a perfectionist, I want a simple UI, allowing me to smoothly and efficiently without wasting my precious tine.
+2. As a perfectionist, I want a simple UI, allowing me to smoothly and efficiently without wasting my precious time.
 3. As a gym bro, I want to keep track of my lifting splits to become the strongest man known to earth.
