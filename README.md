@@ -61,5 +61,3 @@ TaskAdventure/
   ├── package.json           (Main project configuration)
   └── README.md              (Project documentation)
 ```
-
-Feel free to modify or expand this list based on your project's requirements!
