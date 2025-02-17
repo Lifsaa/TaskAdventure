@@ -15,3 +15,6 @@ yarn-error.log*
 .vscode/
 .idea/
 .DS_Store
+
+#ignore dotenv
+packages/backend/.env
