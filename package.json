@@ -4,8 +4,10 @@
     "prettier": "^3.5.0"
   },
   "scripts": {
+    "dev:backend": "cd packages/backend && npx nodemon server.js",
+    "dev:frontend" :"cd packages/frontend && npm start",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "start": "concurrently \"npm start --prefix frontend\" \"npm run dev --prefix backend\""
+    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
