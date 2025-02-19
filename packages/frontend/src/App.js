@@ -6,7 +6,7 @@ const App = () => {
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
 
-  // Fetch tasks from the backend
+  // Fetch tasks from the backend (optional)
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -24,7 +24,7 @@ const App = () => {
   // Add a new task
   const addTask = async () => {
     if (newTask.trim() === "" || newDate.trim() === "") return;
-    const taskData = { label: newTask, date: newDate };
+    const taskData = { label: newTask, date: newDate, checked: false };
 
     try {
       const response = await fetch("http://localhost:5000/tasks", {
@@ -80,56 +80,61 @@ const App = () => {
   const completedTasks = tasks.filter((task) => task.checked);
 
   return (
-    <div>
-      <h1>Task List</h1>
-
-      {/* Input for new task */}
-      <input
-        type="text"
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        placeholder="Enter a new task"
-      />
-      <input
-        type="date"
-        value={newDate}
-        onChange={(e) => setNewDate(e.target.value)}
-      />
-      <button onClick={addTask}>Add Task</button>
+    <div className="app-container">
+      <h1 className="title"> ⚔️ Task Adventure</h1>
+      {/* Input Section */}
+      <div className="input-container">
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Enter a new task"
+        />
+        <input
+          type="date"
+          value={newDate}
+          onChange={(e) => setNewDate(e.target.value)}
+        />
+        <button onClick={addTask}>Add Task</button>
+      </div>
 
       {/* Active Tasks */}
-      <h2>Active Tasks</h2>
+      <h2>📝 Active Tasks</h2>
       {activeTasks.length === 0 && <p>No active tasks!</p>}
-      {activeTasks.map((task) => (
-        <div key={task.id}>
-          <label>
-            <input
-              type="checkbox"
-              checked={task.checked}
-              onChange={() => toggleTask(task.id)}
-            />
-            {task.label} - {task.date}
-          </label>
-          <button onClick={() => removeTask(task.id)}>Remove</button>
-        </div>
-      ))}
+      <div className="task-list">
+        {activeTasks.map((task) => (
+          <div className="task-card" key={task.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={task.checked}
+                onChange={() => toggleTask(task.id)}
+              />
+              {task.label} - {task.date}
+            </label>
+            <button onClick={() => removeTask(task.id)}>❌</button>
+          </div>
+        ))}
+      </div>
 
       {/* Completed Tasks */}
-      <h2>Completed Tasks</h2>
+      <h2>🎯 Completed Tasks</h2>
       {completedTasks.length === 0 && <p>No completed tasks!</p>}
-      {completedTasks.map((task) => (
-        <div key={task.id}>
-          <label>
-            <input
-              type="checkbox"
-              checked={task.checked}
-              onChange={() => toggleTask(task.id)}
-            />
-            <s>{task.label} - {task.date}</s> {/* Strikethrough for completed */}
-          </label>
-          <button onClick={() => removeTask(task.id)}>Remove</button>
-        </div>
-      ))}
+      <div className="task-list">
+        {completedTasks.map((task) => (
+          <div className="task-card completed" key={task.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={task.checked}
+                onChange={() => toggleTask(task.id)}
+              />
+              <s>{task.label} - {task.date}</s>
+            </label>
+            <button onClick={() => removeTask(task.id)}>❌</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
