@@ -36,15 +36,16 @@ app.get("/tasks", (req, res) => {
 
 // Add a new task
 app.post("/tasks", (req, res) => {
-  const { label, date } = req.body;
-  if (!label || !date) {
-    return res.status(400).json({ error: "Label and date are required" });
+  const { label, date, difficulty} = req.body;
+  if (!label || !date || !difficulty) {
+    return res.status(400).json({ error: "Label and date and difficulty are required" });
   }
 
   const newTask = {
     id: Date.now(),
     label,
     date,
+    difficulty,
     checked: false,
   };
 

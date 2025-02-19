@@ -5,6 +5,7 @@ const App = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
+  const [newDifficulty, setNewDifficulty] = useState("");
 
   // Fetch tasks from the backend (optional)
   useEffect(() => {
@@ -24,7 +25,12 @@ const App = () => {
   // Add a new task
   const addTask = async () => {
     if (newTask.trim() === "" || newDate.trim() === "") return;
-    const taskData = { label: newTask, date: newDate, checked: false };
+    const taskData = {
+      label: newTask,
+      date: newDate,
+      difficulty: newDifficulty,
+      checked: false,
+    };
 
     try {
       const response = await fetch("http://localhost:5000/tasks", {
@@ -38,6 +44,7 @@ const App = () => {
         setTasks([...tasks, newTask]);
         setNewTask("");
         setNewDate("");
+        setNewDifficulty("Easy");
       }
     } catch (error) {
       console.error("Error adding task:", error);
@@ -79,9 +86,24 @@ const App = () => {
   const activeTasks = tasks.filter((task) => !task.checked);
   const completedTasks = tasks.filter((task) => task.checked);
 
+  // Get difficulty color
+  const getDifficultyColor = (difficulty) => {
+    switch (difficulty) {
+      case "Easy":
+        return "#4caf50";
+      case "Medium":
+        return "#ff9800";
+      case "Hard":
+        return "#f44336";
+      default:
+        return "#9e9e9e";
+    }
+  };
+
   return (
     <div className="app-container">
-      <h1 className="title"> ⚔️ Task Adventure</h1>
+      <h1 className="title">⚔️ Task Adventure</h1>
+
       {/* Input Section */}
       <div className="input-container">
         <input
@@ -95,6 +117,14 @@ const App = () => {
           value={newDate}
           onChange={(e) => setNewDate(e.target.value)}
         />
+        <select
+          value={newDifficulty}
+          onChange={(e) => setNewDifficulty(e.target.value)}
+        >
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
         <button onClick={addTask}>Add Task</button>
       </div>
 
@@ -112,6 +142,12 @@ const App = () => {
               />
               {task.label} - {task.date}
             </label>
+            <span
+              className="difficulty"
+              style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
+            >
+              {task.difficulty}
+            </span>
             <button onClick={() => removeTask(task.id)}>❌</button>
           </div>
         ))}
@@ -127,10 +163,17 @@ const App = () => {
               <input
                 type="checkbox"
                 checked={task.checked}
-                onChange={() => toggleTask(task.id)}
               />
-              <s>{task.label} - {task.date}</s>
+              <s>
+              {task.label} - {task.date}
+              </s>
             </label>
+            <span
+              className="difficulty"
+              style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
+            >
+              {task.difficulty}
+            </span>
             <button onClick={() => removeTask(task.id)}>❌</button>
           </div>
         ))}

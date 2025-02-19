@@ -1,6 +1,6 @@
 /* Base Container */
 .app-container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
 .title {
   text-align: center;
   font-size: 2rem;
-  color: #812a78;
+  color: #408EC6;
 }
 
 /* Input Section */
@@ -23,7 +23,8 @@
   margin-bottom: 20px;
 }
 
-input {
+input,
+select {
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -36,18 +37,18 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #4caf50;
-  color: white;
+  background-color: #408EC6;
+  color: rgb(255, 255, 255);
   transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #388e3c;
+  background-color: #7A2048;
 }
 
 /* Task Sections */
 h2 {
-  color: #333;
+  color: #333333;
 }
 
 /* Task List */
@@ -70,7 +71,16 @@ h2 {
 
 /* Completed Task Styling */
 .completed {
-  background: #e8f5e9;
-  color: #388e3c;
+  background: #e8f3f5;
+  color: #408EC6;
   text-decoration: line-through;
+}
+
+/* Difficulty Badge */
+.difficulty {
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
 }
