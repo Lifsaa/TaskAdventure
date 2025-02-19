@@ -5,7 +5,7 @@ const App = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
-  const [newDifficulty, setNewDifficulty] = useState("");
+  const [newDifficulty, setNewDifficulty] = useState("Easy");
 
   // Fetch tasks from the backend (optional)
   useEffect(() => {
