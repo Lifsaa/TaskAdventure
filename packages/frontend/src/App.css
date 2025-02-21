@@ -42,6 +42,12 @@
 }
 
 
+.input-validation p {
+    color: #cc3333;
+    white-space: pre-wrap;
+}
+
+
 input,
 select {
   padding: 8px 12px;

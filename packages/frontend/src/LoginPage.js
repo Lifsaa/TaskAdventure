@@ -8,7 +8,7 @@ const LoginPage = () => {
         navigate('/tasks')
     }
 
-    const createAccount = () => {
+    const signUp = () => {
         navigate('/signup')
     }
 
@@ -27,7 +27,7 @@ const LoginPage = () => {
         
                 <div className="input-container">
                     <button onClick={login}>Login</button>
-                    <button onClick={createAccount}>Create Account</button>
+                    <button onClick={signUp}>Sign Up</button>
                 </div>
             </form>
         </div>
