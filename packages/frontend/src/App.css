@@ -23,6 +23,25 @@
   margin-bottom: 20px;
 }
 
+
+.login-page {
+    margin: auto;
+    width: 75%;
+}
+
+
+.login-page input {
+    width: 100%;
+    max-width:500px;
+}
+
+
+.login-page button {
+    width: 100%;
+    padding: 12px;
+}
+
+
 input,
 select {
   padding: 8px 12px;

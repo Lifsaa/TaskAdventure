@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import TaskPage from "./TaskPage";
 import LoginPage from "./LoginPage"
+import SignupPage from "./SignupPage"
 
 const App = () => {
 
@@ -12,6 +13,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<LoginPage/>} />
                     <Route path="tasks" element={<TaskPage />} />
+                    <Route path="signup" element={<SignupPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
