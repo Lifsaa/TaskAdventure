@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from "react";
 
-const TaskPage = () => {
+const TaskPage = ({ token }) => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
   const [newDifficulty, setNewDifficulty] = useState("Easy");
   const [newSocialStat, setNewSocialStat] = useState("Intelligence");
 
-  // Fetch tasks from the backend (optional)
+  // Fetch tasks from the backend
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("http://localhost:5000/tasks");
-        const data = await response.json();
-        setTasks(data);
+        const response = await fetch("http://localhost:5000/tasks", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setTasks(data);
+        } else {
+          console.error("Error fetching tasks");
+        }
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error("Fetch error:", error);
       }
     };
-
     fetchTasks();
-  }, []);
+  }, [token]);
 
   // Add a new task
   const addTask = async () => {
@@ -36,10 +41,12 @@ const TaskPage = () => {
     try {
       const response = await fetch("http://localhost:5000/tasks", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(taskData),
       });
-
       if (response.ok) {
         const newTask = await response.json();
         setTasks([...tasks, newTask]);
@@ -58,11 +65,11 @@ const TaskPage = () => {
     try {
       const response = await fetch(`http://localhost:5000/tasks/${id}`, {
         method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       if (response.ok) {
         const updatedTask = await response.json();
-        setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
+        setTasks(tasks.map((task) => (task._id === id ? updatedTask : task)));
       }
     } catch (error) {
       console.error("Error updating task:", error);
@@ -74,14 +81,20 @@ const TaskPage = () => {
     try {
       const response = await fetch(`http://localhost:5000/tasks/${id}`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       if (response.ok) {
-        setTasks(tasks.filter((task) => task.id !== id));
-      }
+        setTasks(tasks.filter((task) => task._id !== id));
+      }xwxwxw
     } catch (error) {
-      console.error("Error deleting task:", error);
+      console.error("Erxor deleting task:", error);
     }
+  };
+
+  // Logout function
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
   // Separate active and completed tasks
@@ -105,6 +118,7 @@ const TaskPage = () => {
   return (
     <div className="TaskView">
       <h1 className="title">⚔️ Task Adventure</h1>
+      <button onClick={logout}>Log Out</button>
 
       {/* Input Section */}
       <div className="input-container">
@@ -146,12 +160,12 @@ const TaskPage = () => {
       {activeTasks.length === 0 && <p>No active tasks!</p>}
       <div className="task-list">
         {activeTasks.map((task) => (
-          <div className="task-card" key={task.id}>
+          <div className="task-card" key={task._id}>
             <label>
               <input
                 type="checkbox"
                 checked={task.checked}
-                onChange={() => toggleTask(task.id)}
+                onChange={() => toggleTask(task._id)}
               />
               {task.label} - {task.date}
             </label>
@@ -177,23 +191,18 @@ const TaskPage = () => {
       {completedTasks.length === 0 && <p>No completed tasks!</p>}
       <div className="task-list">
         {completedTasks.map((task) => (
-          <div className="task-card completed" key={task.id}>
+          <div className="task-card completed" key={task._id}>
             <label>
-              <input
-                type="checkbox"
-                checked={task.checked}
-              />
-              <s>
-              {task.label} - {task.date}
-              </s>
+              <input type="checkbox" checked={task.checked} />
+              <s>{task.label} - {task.date}</s>
             </label>
             <span
               className="difficulty"
               style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
             >
-              {task.difficult}
+              {task.difficulty}
             </span>
-            <button onClick={() => removeTask(task.id)}>❌</button>
+            <button onClick={() => removeTask(task._id)}>❌</button>
           </div>
         ))}
       </div>
