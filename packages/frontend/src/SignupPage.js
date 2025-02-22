@@ -12,12 +12,25 @@ const SignupPage = () => {
     const [validationError, setValidationError] = useState("")
 
 
-    function back () {
+    function back() {
         navigate('/')
     }
 
 
-    function createAccount () {
+    function signUp(creds) {
+        const promise = fetch(`http://localhost:5000/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(creds)
+        });
+
+        return promise;
+    }
+
+
+    function createAccount() {
 
         // Input validation
         let validationString = inputValidation();
@@ -26,10 +39,33 @@ const SignupPage = () => {
             setValidationError(validationString);
             return;
         }
+
+        // Signup request
+        signUp(userInfo).then((res) => {
+            if (res.status === 201) {
+                console.log("Signup successful!");
+
+                res
+                    .json()
+                    .then((payload) => localStorage.setItem('token', JSON.stringify(payload)));
+
+                back();
+            }  else {
+
+                res
+                .text()
+                .then((text) => setValidationError(text));
+            }
+            return res
+
+        })
+            .catch((error) => {
+                setValidationError(`Login Error: ${error}`);
+            });
     }
 
 
-    function inputValidation () {
+    function inputValidation() {
         const emailInput = document.getElementById('email');
         let validationString = "";
 
@@ -108,47 +144,46 @@ const SignupPage = () => {
 
     return (
         <div className="login-page">
-            <h1 className="title">⚔️ Account Signup</h1>
-            <form>
-                <h2><label>👤 Username</label></h2>
-                <input type="text"
-                    name="username"
-                    onChange={handleChange}
-                    value={userInfo.username}/>
+        <h1 className="title">⚔️ Account Signup</h1>
+        <form>
+        <h2><label>👤 Username</label></h2>
+        <input type="text"
+        name="username"
+        onChange={handleChange}
+        value={userInfo.username}/>
 
-                <h2><label>📧 Email</label></h2>
-                <input type="email"
-                    id="email"
-                    name="email"
-                    placeholder="example@address.com"
-                    onChange={handleChange}
-                    value={userInfo.email}/>
+        <h2><label>📧 Email</label></h2>
+        <input type="email"
+        id="email"
+        name="email"
+        placeholder="example@address.com"
+        onChange={handleChange}
+        value={userInfo.email}/>
 
-                <h2><label>🔑 Password</label></h2>
-                <input type="password"
-                    name="password"
-                    onChange={handleChange}
-                    value={userInfo.password}/>
+        <h2><label>🔑 Password</label></h2>
+        <input type="password"
+        name="password"
+        onChange={handleChange}
+        value={userInfo.password}/>
 
-                <h2><label>🔑 Confirm Password</label></h2>
-                <input type="password"
-                    name="confirmedPassword"
-                    onChange={handleChange}
-                    value={userInfo.confirmedPassword}/>
+        <h2><label>🔑 Confirm Password</label></h2>
+        <input type="password"
+        name="confirmedPassword"
+        onChange={handleChange}
+        value={userInfo.confirmedPassword}/>
 
-                
-                <div className="input-validation">
-                    <p>{validationError}</p>
-                </div>
+        <div className="input-validation">
+        <p>{validationError}</p>
+        </div>
 
-                <br/><br/><br/>
-        
-                <div className="input-container">
-                    <button onClick={back}>Back</button>
-                    <button onClick={createAccount}
-                        type="button">Create Account</button>
-                </div>
-            </form>
+        <br/><br/><br/>
+
+        <div className="input-container">
+        <button onClick={back}>Back</button>
+        <button onClick={createAccount}
+        type="button">Create Account</button>
+        </div>
+        </form>
         </div>
     )
 };
