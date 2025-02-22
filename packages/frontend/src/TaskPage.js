@@ -5,6 +5,7 @@ const TaskPage = () => {
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
   const [newDifficulty, setNewDifficulty] = useState("Easy");
+  const [newSocialStat, setNewSocialStat] = useState("Intelligence");
 
   // Fetch tasks from the backend (optional)
   useEffect(() => {
@@ -28,6 +29,7 @@ const TaskPage = () => {
       label: newTask,
       date: newDate,
       difficulty: newDifficulty,
+      socialstat: newSocialStat,
       checked: false,
     };
 
@@ -44,6 +46,7 @@ const TaskPage = () => {
         setNewTask("");
         setNewDate("");
         setNewDifficulty("Easy");
+        setNewSocialStat("Intelligence")
       }
     } catch (error) {
       console.error("Error adding task:", error);
@@ -124,6 +127,17 @@ const TaskPage = () => {
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
+        <select
+          value={newSocialStat}
+          onChange={(e) => setNewSocialStat(e.target.value)}
+        >
+          <option value="Creativity">Creativity</option>
+          <option value="Healthfulness">Healthfulness</option>
+          <option value="Intelligence">Intelligence</option>
+          <option value="Kindness">Kindness</option>
+          <option value="Proficiency">Proficiency</option>
+          <option value="Sociability">Sociability</option>
+        </select>
         <button onClick={addTask}>Add Task</button>
       </div>
 
@@ -146,6 +160,12 @@ const TaskPage = () => {
               style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
             >
               {task.difficulty}
+            </span>
+            <span
+              className="socialstat"
+              style={{ backgroundColor: "#A020F0"}}
+            >
+              {task.socialstat}
             </span>
             <button onClick={() => removeTask(task.id)}>❌</button>
           </div>
