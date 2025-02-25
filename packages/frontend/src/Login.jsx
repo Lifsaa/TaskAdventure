@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import styles from "./Login.module.css";
 
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -11,13 +12,12 @@ const Login = ({ setToken }) => {
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, pwd }),
+        body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
       if (response.ok) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
-        setMessage("Login successful!");
       } else {
         setMessage("Invalid credentials");
       }
@@ -27,24 +27,28 @@ const Login = ({ setToken }) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={pwd}
-          onChange={(e) => setPwd(e.target.value)}
-        />
+    <div className="login-container">
+      <h1 className="app-title">TaskAdventure</h1> {/* ✅ Updated title */}
+      <form onSubmit={handleSubmit} className="login-form">
+        <label>
+          Username:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
         <button type="submit">Log In</button>
       </form>
-      <p>{message}</p>
+      {message && <p className="error-message">{message}</p>}
     </div>
   );
 };
