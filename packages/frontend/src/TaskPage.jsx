@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "./TaskPage.module.css";
 
 const TaskPage = ({ token }) => {
   const [tasks, setTasks] = useState([]);
@@ -113,12 +114,11 @@ const TaskPage = ({ token }) => {
   };
 
   return (
-    <div className="TaskView">
-      <h1 className="title">⚔️ Task Adventure</h1>
-      <button onClick={logout}>Log Out</button>
+    <div className={styles["task-container"]}>
+      <h1 className={styles["task-title"]}>⚔️ Task Adventure</h1>
 
       {/* Input Section */}
-      <div className="input-container">
+      <div className={styles["input-container"]}>
         <input
           type="text"
           value={newTask}
@@ -142,11 +142,13 @@ const TaskPage = ({ token }) => {
       </div>
 
       {/* Active Tasks */}
-      <h2>📝 Active Tasks</h2>
-      {activeTasks.length === 0 && <p>No active tasks!</p>}
-      <div className="task-list">
+      <h2 className={styles["task-section"]}>📝 Active Tasks</h2>
+      {activeTasks.length === 0 && (
+        <p className={styles["empty-message"]}>No active tasks!</p>
+      )}
+      <div className={styles["task-list"]}>
         {activeTasks.map((task) => (
-          <div className="task-card" key={task._id}>
+          <div className={styles["task-card"]} key={task._id}>
             <label>
               <input
                 type="checkbox"
@@ -155,37 +157,48 @@ const TaskPage = ({ token }) => {
               />
               {task.label} - {task.date}
             </label>
-            <span
-              className="difficulty"
-              style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
+            <button
+              onClick={() => removeTask(task._id)}
+              className={styles["delete-btn"]}
             >
-              {task.difficulty}
-            </span>
-            <button onClick={() => removeTask(task._id)}>❌</button>
+              ❌
+            </button>
           </div>
         ))}
       </div>
 
       {/* Completed Tasks */}
-      <h2>🎯 Completed Tasks</h2>
-      {completedTasks.length === 0 && <p>No completed tasks!</p>}
-      <div className="task-list">
+      <h2 className={styles["task-section"]}>🎯 Completed Tasks</h2>
+      {completedTasks.length === 0 && (
+        <p className={styles["empty-message"]}>No completed tasks!</p>
+      )}
+      <div className={styles["task-list"]}>
         {completedTasks.map((task) => (
-          <div className="task-card completed" key={task._id}>
+          <div className={styles["completed"]} key={task._id}>
             <label>
               <input type="checkbox" checked={task.checked} />
-              <s>{task.label} - {task.date}</s>
+              <s>
+                {task.label} - {task.date}
+              </s>
             </label>
-            <span
-              className="difficulty"
-              style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
+            <button
+              onClick={() => removeTask(task._id)}
+              className={styles["delete-btn"]}
             >
-              {task.difficulty}
-            </span>
-            <button onClick={() => removeTask(task._id)}>❌</button>
+              ❌
+            </button>
           </div>
         ))}
       </div>
+      <button
+        onClick={() => {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+        }}
+        className={styles["logout-btn"]}
+      >
+        Log Out
+      </button>
     </div>
   );
 };

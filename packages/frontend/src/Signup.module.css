@@ -1,0 +1,99 @@
+.signup-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .app-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #408EC6;
+    margin-bottom: 20px;
+  }
+  
+  /* Signup Form */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 20px; /* ✅ Adds spacing from edges */
+  }
+  
+  /* Input Field Styling */
+  .input-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input-container input {
+    width: calc(100% - 20px); /* ✅ Prevents touching edges */
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background: transparent;
+  }
+  
+  /* Floating Label */
+  .input-container label {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 16px;
+    transition: 0.3s ease all;
+    pointer-events: none;
+  }
+  
+  /* When user starts typing */
+  .input-container input:focus ~ label,
+  .input-container input:not(:placeholder-shown) ~ label {
+    top: 5px;
+    font-size: 12px;
+    color: #408EC6;
+  }
+  
+  /* Input focus effect */
+  .input-container input:focus {
+    border-color: #408EC6;
+    box-shadow: 0 0 5px rgba(64, 142, 198, 0.3);
+  }
+  
+  /* Button Styling */
+  button {
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    width: 100%; /* ✅ Centers button */
+    margin-top: 10px; /* ✅ Gives spacing between inputs & button */
+  }
+  
+  button:hover {
+    background: #0056b3;
+    transform: scale(1.02);
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Error Message */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
