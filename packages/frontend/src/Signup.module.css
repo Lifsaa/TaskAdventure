@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 20px; /* ✅ Adds spacing from edges */
+    padding: 0 20px; 
   }
   
   /* Input Field Styling */
@@ -31,7 +31,7 @@
   }
   
   .input-container input {
-    width: calc(100% - 20px); /* ✅ Prevents touching edges */
+    width: calc(100% - 20px);
     padding: 14px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -77,8 +77,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s, transform 0.1s;
-    width: 100%; /* ✅ Centers button */
-    margin-top: 10px; /* ✅ Gives spacing between inputs & button */
+    width: 100%; 
+    margin-top: 10px; 
   }
   
   button:hover {
