@@ -1,0 +1,151 @@
+/* Base Container */
+.task-container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title */
+.task-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #408ec6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* Log Out Button */
+.logout-btn {
+  background: #ff4d4d;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.logout-btn:hover {
+  background: #d43f3f;
+}
+
+/* Input Section */
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.input-container input,
+.input-container select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  flex: 1;
+  max-width: 200px;
+}
+
+.input-container button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #408ec6;
+  color: white;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.input-container button:hover {
+  background-color: #7a2048;
+}
+
+/* Task Sections */
+.task-section {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.task-section h2 {
+  font-size: 1.6rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Task List */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Task Card */
+.task-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Completed Task Styling */
+.completed {
+  background: #e8f3f5;
+  color: #408ec6;
+  text-decoration: line-through;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Difficulty Badge */
+.difficulty {
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Red Delete Button */
+.delete-btn {
+  background: #ff4d4d;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background: #d43f3f;
+}
+/* Align empty task messages to the left */
+.empty-message {
+    text-align: left;
+    font-size: 1rem;
+    color: #555;
+    margin-left: 20px;
+  }
+  
