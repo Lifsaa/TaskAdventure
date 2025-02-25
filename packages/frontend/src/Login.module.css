@@ -21,31 +21,30 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 0 20px; /* ✅ Adds space so inputs aren't too close to the right */
+  padding: 0 20px; 
 }
 
 /* Input Field Styling */
 .input-container {
   position: relative;
   width: 100%;
-  text-align: left; /* ✅ Aligns label properly */
+  text-align: left; /
 }
 
 .input-container input {
-  width: calc(100% - 20px); /* ✅ Prevents touching edges */
+  width: calc(100% - 20px); 
   padding: 14px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
   background: transparent;
-  padding-left: 16px; /* ✅ Adds left padding for better spacing */
-}
+  padding-left: 16px; 
 
 /* Floating Label */
 .input-container label {
   position: absolute;
-  left: 16px; /* ✅ Moves label left to align properly */
+  left: 16px; 
   top: 50%;
   transform: translateY(-50%);
   color: #aaa;
@@ -81,8 +80,8 @@ button {
   transition:
     background 0.3s,
     transform 0.1s;
-  width: 100%; /* ✅ Ensures button spans full width */
-  margin-top: 10px; /* ✅ Adds space above button */
+  width: 100%; 
+  margin-top: 10px; 
 }
 
 button:hover {
