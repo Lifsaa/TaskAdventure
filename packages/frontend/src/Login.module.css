@@ -1,43 +1,100 @@
 .login-container {
   max-width: 400px;
   margin: 100px auto;
-  padding: 20px;
+  padding: 30px;
   text-align: center;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* App Title */
 .app-title {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: #408ec6;
   margin-bottom: 20px;
 }
 
+/* Login Form */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
+  padding: 0 20px; /* ✅ Adds space so inputs aren't too close to the right */
 }
 
-input {
-  padding: 10px;
+/* Input Field Styling */
+.input-container {
+  position: relative;
+  width: 100%;
+  text-align: left; /* ✅ Aligns label properly */
+}
+
+.input-container input {
+  width: calc(100% - 20px); /* ✅ Prevents touching edges */
+  padding: 14px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  outline: none;
+  background: transparent;
+  padding-left: 16px; /* ✅ Adds left padding for better spacing */
 }
 
+/* Floating Label */
+.input-container label {
+  position: absolute;
+  left: 16px; /* ✅ Moves label left to align properly */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 16px;
+  transition: 0.3s ease all;
+  pointer-events: none;
+}
+
+/* When user starts typing */
+.input-container input:focus ~ label,
+.input-container input:not(:placeholder-shown) ~ label {
+  top: 5px;
+  font-size: 12px;
+  color: #408ec6;
+}
+
+/* Input focus effect */
+.input-container input:focus {
+  border-color: #408ec6;
+  box-shadow: 0 0 5px rgba(64, 142, 198, 0.3);
+}
+
+/* Button Styling */
 button {
-  padding: 10px;
+  padding: 14px;
   font-size: 18px;
+  font-weight: bold;
   color: white;
   background: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.1s;
+  width: 100%; /* ✅ Ensures button spans full width */
+  margin-top: 10px; /* ✅ Adds space above button */
 }
 
+button:hover {
+  background: #0056b3;
+  transform: scale(1.02);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Error Message */
 .error-message {
   color: red;
   font-size: 14px;

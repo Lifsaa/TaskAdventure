@@ -1,4 +1,4 @@
-/* Base Container */
+Base Container
 .app-container {
   max-width: 800px;
   margin: 50px auto;
@@ -13,7 +13,7 @@
 /* App Title */
 .app-title {
   font-size: 2.5rem;
-  color: #408EC6;
+  color: #408ec6;
   margin-bottom: 20px;
   font-weight: bold;
 }
@@ -46,7 +46,7 @@ button {
   padding: 10px;
   font-size: 16px;
   color: white;
-  background: #408EC6;
+  background: #408ec6;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -54,7 +54,7 @@ button {
 }
 
 button:hover {
-  background: #7A2048;
+  background: #7a2048;
 }
 
 /* Task List */
@@ -78,7 +78,7 @@ button:hover {
 /* Completed Task Styling */
 .completed {
   background: #e8f3f5;
-  color: #408EC6;
+  color: #408ec6;
   text-decoration: line-through;
 }
 
@@ -90,3 +90,5 @@ button:hover {
   font-weight: bold;
   margin-left: 10px;
 }
+
+

@@ -27,28 +27,35 @@ const Login = ({ setToken }) => {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="app-title">TaskAdventure</h1> {/* ✅ Updated title */}
-      <form onSubmit={handleSubmit} className="login-form">
-        <label>
-          Username:
+    <div className={styles["login-container"]}>
+      <h1 className={styles["app-title"]}>Log In</h1>
+      <form onSubmit={handleSubmit} className={styles["login-form"]}>
+        <div className={styles["input-container"]}>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
+            placeholder=" "
           />
-        </label>
-        <label>
-          Password:
+          <label>Username</label>
+        </div>
+
+        <div className={styles["input-container"]}>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder=" "
           />
-        </label>
+          <label>Password</label>
+        </div>
+
         <button type="submit">Log In</button>
       </form>
-      {message && <p className="error-message">{message}</p>}
+
+      {message && <p className={styles["error-message"]}>{message}</p>}
     </div>
   );
 };
