@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,9 +28,14 @@ const Login = ({ setToken }) => {
     }
   };
 
+
+    const signUp = () => {
+        navigate('/signup')
+    }
+
   return (
     <div className={styles["login-container"]}>
-      <h1 className={styles["app-title"]}>Log In</h1>
+      <h1 className={styles["app-title"]}>⚔️ Welcome to Task Adventure</h1>
       <form onSubmit={handleSubmit} className={styles["login-form"]}>
         <div className={styles["input-container"]}>
           <input
@@ -52,7 +59,11 @@ const Login = ({ setToken }) => {
           <label>Password</label>
         </div>
 
-        <button type="submit">Log In</button>
+          <div className="button-container">
+            <button type="submit">Log In</button>
+            <button onClick={signUp}
+                type="button">Sign Up</button>
+          </div>
       </form>
 
       {message && <p className={styles["error-message"]}>{message}</p>}
