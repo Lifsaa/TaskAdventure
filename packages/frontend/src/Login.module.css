@@ -1,5 +1,5 @@
 .login-container {
-  max-width: 400px;
+  max-width: 500px;
   margin: 100px auto;
   padding: 30px;
   text-align: center;
@@ -28,7 +28,14 @@
 .input-container {
   position: relative;
   width: 100%;
-  text-align: left; /
+  text-align: left;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .input-container input {
