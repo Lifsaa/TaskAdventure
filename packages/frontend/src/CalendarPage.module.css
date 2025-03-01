@@ -1,0 +1,96 @@
+.calendarContainer {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.reactCalendar {
+    border: none !important;
+    width: 100%;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+button {
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.taskInputContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.taskInput,
+.dateInput,
+.difficultySelect {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.addTaskButton {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.addTaskButton:hover {
+    background: #0056b3;
+}
+
+/* Task Indicator Dots */
+.taskIndicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.taskDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: 0 2px;
+}
+
+/* Task Difficulty */
+.easy {
+    background-color: green;
+}
+
+.medium {
+    background-color: orange;
+}
+
+.hard {
+    background-color: red;
+}
