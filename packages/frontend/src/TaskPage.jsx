@@ -86,9 +86,9 @@ const TaskPage = ({ token }) => {
       });
       if (response.ok) {
         setTasks(tasks.filter((task) => task._id !== id));
-      }xwxwxw
+      }
     } catch (error) {
-      console.error("Erxor deleting task:", error);
+      console.error("Error deleting task:", error);
     }
   };
 
@@ -160,7 +160,7 @@ const TaskPage = ({ token }) => {
       {activeTasks.length === 0 && (
         <p className={styles["empty-message"]}>No active tasks!</p>
       )}
-      <div className={styles["task-list"]}>
+       <div className={styles["task-list"]}>
         {activeTasks.map((task) => (
           <div className={styles["task-card"]} key={task._id}>
             <label>
@@ -174,7 +174,8 @@ const TaskPage = ({ token }) => {
             <button
               onClick={() => removeTask(task._id)}
               className={styles["delete-btn"]}
-            >
+            />
+            <span>
               {task.difficulty}
             </span>
             <span
