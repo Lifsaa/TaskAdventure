@@ -80,6 +80,35 @@ app.post("/contact", async (req,res)=>
 app.post("/signup", registerUser);
 app.post("/login", loginUser);
 
+// Task Schema
+const taskSchema = new mongoose.Schema({
+  label: String,
+  date: String,
+  difficulty: String,
+  checked: Boolean,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+});
+const Task = mongoose.model("Task", taskSchema);
+
+// Add a new task
+app.post("/tasks", (req, res) => {
+  const { label, date, difficulty, socialstat} = req.body;
+  if (!label || !date || !difficulty || !socialstat) {
+    return res.status(400).json({ error: "Label and date and difficulty and socialstat are required" });
+  }
+});
+
+  const newTask = {
+    id: Date.now(),
+    label,
+    date,
+    difficulty,
+    socialstat,
+    checked: false,
+  };
+
+  tasks.push(newTask);
+  res.status(201).json(newTask);
 // Protected Task Routes
 app.get("/tasks", authenticateUser, async (req, res) => {
   try {
