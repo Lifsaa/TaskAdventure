@@ -91,4 +91,10 @@ button:hover {
   margin-left: 10px;
 }
 
-
+.socialstat {
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+}
