@@ -6,7 +6,6 @@ const TaskPage = ({ token }) => {
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
   const [newDifficulty, setNewDifficulty] = useState("Easy");
-  const [newSocialStat, setNewSocialStat] = useState("Intelligence");
 
   // Fetch tasks from the backend
   useEffect(() => {
@@ -35,7 +34,6 @@ const TaskPage = ({ token }) => {
       label: newTask,
       date: newDate,
       difficulty: newDifficulty,
-      socialstat: newSocialStat,
       checked: false,
     };
 
@@ -54,7 +52,6 @@ const TaskPage = ({ token }) => {
         setNewTask("");
         setNewDate("");
         setNewDifficulty("Easy");
-        setNewSocialStat("Intelligence")
       }
     } catch (error) {
       console.error("Error adding task:", error);
@@ -141,17 +138,6 @@ const TaskPage = ({ token }) => {
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
-        <select
-          value={newSocialStat}
-          onChange={(e) => setNewSocialStat(e.target.value)}
-        >
-          <option value="Creativity">Creativity</option>
-          <option value="Healthfulness">Healthfulness</option>
-          <option value="Intelligence">Intelligence</option>
-          <option value="Kindness">Kindness</option>
-          <option value="Proficiency">Proficiency</option>
-          <option value="Sociability">Sociability</option>
-        </select>
         <button onClick={addTask}>Add Task</button>
       </div>
 
@@ -160,7 +146,7 @@ const TaskPage = ({ token }) => {
       {activeTasks.length === 0 && (
         <p className={styles["empty-message"]}>No active tasks!</p>
       )}
-       <div className={styles["task-list"]}>
+      <div className={styles["task-list"]}>
         {activeTasks.map((task) => (
           <div className={styles["task-card"]} key={task._id}>
             <label>
@@ -174,17 +160,7 @@ const TaskPage = ({ token }) => {
             <button
               onClick={() => removeTask(task._id)}
               className={styles["delete-btn"]}
-            />
-            <span>
-              {task.difficulty}
-            </span>
-            <span
-              className="socialstat"
-              style={{ backgroundColor: "#A020F0"}}
             >
-              {task.socialstat}
-            </span>
-            <button onClick={() => removeTask(task.id)}>
               ❌
             </button>
           </div>
