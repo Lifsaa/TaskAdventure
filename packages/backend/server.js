@@ -38,29 +38,6 @@ const Task = mongoose.model("Task", taskSchema);
 app.post("/signup", registerUser);
 app.post("/login", loginUser);
 
-// Get all tasks
-app.get("/tasks", (req, res) => {
-  res.json(tasks);
-});
-
-// Add a new task
-app.post("/tasks", (req, res) => {
-  const { label, date, difficulty, socialstat} = req.body;
-  if (!label || !date || !difficulty || !socialstat) {
-    return res.status(400).json({ error: "Label and date and difficulty and socialstat are required" });
-  }
-
-  const newTask = {
-    id: Date.now(),
-    label,
-    date,
-    difficulty,
-    socialstat,
-    checked: false,
-  };
-
-  tasks.push(newTask);
-  res.status(201).json(newTask);
 // Protected Task Routes
 app.get("/tasks", authenticateUser, async (req, res) => {
   try {
@@ -108,4 +85,4 @@ app.delete("/tasks/:id", authenticateUser, async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"))});
+app.listen(5000, () => console.log("Server running on port 5000"));
