@@ -7,7 +7,7 @@ const ContactUsPage = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
-
+  const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
