@@ -139,7 +139,7 @@ const Layout = ({ children, toggleDarkMode, darkMode }) => {
             <ListItem
               button
               component={token ? Link : "div"}
-              to={token ? "/statistics" : "#"}
+              to={token ? "/stats" : "#"}
               onClick={token ? toggleDrawer : null}
               sx={{
                 opacity: token ? 1 : 0.5,
