@@ -6,7 +6,9 @@ const ProgressBar = ({ level, xp, maxXp }) => {
   return (
     <div className="mb-4">
       <p className="text-lg font-semibold">Level {level}</p>
-      <p className="text-sm text-gray-500">{xp}/{maxXp} XP to Next Level</p>
+      <p className="text-sm text-gray-500">
+        {xp}/{maxXp} XP to Next Level
+      </p>
       <div className="w-full bg-gray-300 rounded-full h-4 mt-1">
         <div
           className="bg-black h-full rounded-full transition-all duration-300"
@@ -32,8 +34,9 @@ const UserStats = () => {
       <h2 className="text-2xl font-bold text-center mb-6">User Stats</h2>
       <ProgressBar level={50} xp={4690} maxXp={5000} />
       {stats.map((stat) => (
-        <div key={stat.name}>
+        <div key={stat.name} className="mb-6">
           <h3 className="text-lg font-bold">{stat.name}</h3>
+          {/* This ProgressBar is what renders under each stat */}
           <ProgressBar level={stat.level} xp={stat.xp} maxXp={stat.maxXp} />
         </div>
       ))}

@@ -1,0 +1,115 @@
+/* General container styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+/* UserStats container */
+.p-5 {
+  padding: 1.25rem;
+}
+
+/* Title styling */
+.text-2xl {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+/* Progress bar container */
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  color: #333;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.bg-gray-300 {
+  background-color: #d1d5db;
+}
+
+.bg-black {
+  background-color: #000;
+}
+
+.bg-gray-500 {
+  background-color: #6b7280;
+}
+
+/* Progress bar appearance */
+.w-full {
+  width: 100%;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.h-4 {
+  height: 1rem;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Styling for stats titles */
+.text-lg.font-semibold {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+/* Styling for smaller text such as XP info */
+.text-sm.text-gray-500 {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Styling for each stat container */
+.max-w-lg {
+  max-width: 32rem; /* 512px */
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.p-5 {
+  padding: 1.25rem;
+}
+
+/* Adding smooth hover effect on progress bar */
+.bg-black:hover {
+  background-color: #333;
+}
