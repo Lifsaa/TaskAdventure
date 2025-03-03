@@ -11,56 +11,75 @@ import {
   IconButton,
   Box,
   Avatar,
+  CssBaseline,
 } from "@mui/material";
-import { Home, PersonAdd, Login, Menu } from "@mui/icons-material";
-import { CalendarMonth, BarChart, Person, Phone } from "@mui/icons-material";
+import {
+  Home,
+  PersonAdd,
+  Login,
+  Menu,
+  Brightness4,
+  Brightness7,
+  CalendarMonth,
+  BarChart,
+  Person,
+  Phone,
+  Logout,
+} from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "@mui/material/styles"; // Use theme from App.jsx
 
-const Layout = ({ children }) => {
+const Layout = ({ children, toggleDarkMode, darkMode }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const location = useLocation(); // Get current route
-  const token = localStorage.getItem("token"); // Check if user is logged in
-
-  // Hide sidebar on Login and Signup pages
-  const hideDrawer =
-    location.pathname === "/login" || location.pathname === "/signup";
+  const theme = useTheme(); // Get current theme from App.jsx
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
+  const location = useLocation();
+  const token = localStorage.getItem("token");
+
+  // Hide sidebar on Login and Signup pages
+  const hideDrawer =
+    location.pathname === "/login" || location.pathname === "/signup";
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        bgcolor: theme.palette.background.default,
+        minHeight: "100vh",
+      }}
+    >
+      <CssBaseline /> {/* Applies global background & text colors */}
       {/* Header */}
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          {!hideDrawer && (
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={toggleDrawer}
-              sx={{ ml: -66 }} // Moves it to the far left
-            >
-              <Menu />
+      <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {!hideDrawer && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={toggleDrawer}
+                sx={{ ml: -3 }}
+              >
+                <Menu />
+              </IconButton>
+            )}
+            <Typography variant="h6" sx={{ ml: 0 }}>
+              TaskAdventure
+            </Typography>
+          </Box>
+
+          {/* Dark Mode Toggle Button */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton color="inherit" onClick={toggleDarkMode}>
+              {darkMode ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
-          )}
-          <Typography
-            variant="h6"
-            sx={{
-              ml: 7,
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-65%)",
-            }} // Centers title
-          >
-            TaskAdventure
-          </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
-
       {/* Sidebar (Drawer) - Only show if NOT on login or signup pages */}
       {!hideDrawer && (
         <Drawer
@@ -68,12 +87,7 @@ const Layout = ({ children }) => {
           anchor="left"
           open={drawerOpen}
           onClose={toggleDrawer}
-          ModelProps={{ keepMounted: true }}
-          sx={{
-            width: 10,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": { width: 240, boxSizing: "border-box" },
-          }}
+          sx={{ "& .MuiDrawer-paper": { width: 240, boxSizing: "border-box" } }}
         >
           <Toolbar />
           <Box sx={{ p: 2, textAlign: "center" }}>
@@ -97,7 +111,10 @@ const Layout = ({ children }) => {
               <ListItemIcon>
                 <Home />
               </ListItemIcon>
-              <ListItemText primary="Tasks" sx={{ color: "black" }} />
+              <ListItemText
+                primary="Tasks"
+                sx={{ color: theme.palette.text.primary }}
+              />
             </ListItem>
 
             <ListItem
@@ -113,7 +130,10 @@ const Layout = ({ children }) => {
               <ListItemIcon>
                 <CalendarMonth />
               </ListItemIcon>
-              <ListItemText primary="Calendar" sx={{ color: "black" }} />
+              <ListItemText
+                primary="Calendar"
+                sx={{ color: theme.palette.text.primary }}
+              />
             </ListItem>
 
             <ListItem
@@ -129,7 +149,10 @@ const Layout = ({ children }) => {
               <ListItemIcon>
                 <BarChart />
               </ListItemIcon>
-              <ListItemText primary="Statistics" sx={{ color: "black" }} />
+              <ListItemText
+                primary="Statistics"
+                sx={{ color: theme.palette.text.primary }}
+              />
             </ListItem>
 
             <ListItem
@@ -145,20 +168,26 @@ const Layout = ({ children }) => {
               <ListItemIcon>
                 <Person />
               </ListItemIcon>
-              <ListItemText primary="Account Info" sx={{ color: "black" }} />
+              <ListItemText
+                primary="Account Info"
+                sx={{ color: theme.palette.text.primary }}
+              />
             </ListItem>
 
             {/* Always Visible */}
             <ListItem
               button
               component={Link}
-              to="/contactus"
+              to="/contact"
               onClick={toggleDrawer}
             >
               <ListItemIcon>
                 <Phone />
               </ListItemIcon>
-              <ListItemText primary="Contact Us" sx={{ color: "black" }} />
+              <ListItemText
+                primary="Contact Us"
+                sx={{ color: theme.palette.text.primary }}
+              />
             </ListItem>
 
             {/* If NOT logged in, show Register & Login */}
@@ -173,7 +202,10 @@ const Layout = ({ children }) => {
                   <ListItemIcon>
                     <PersonAdd />
                   </ListItemIcon>
-                  <ListItemText primary="Register" sx={{ color: "black" }} />
+                  <ListItemText
+                    primary="Register"
+                    sx={{ color: theme.palette.text.primary }}
+                  />
                 </ListItem>
 
                 <ListItem
@@ -185,7 +217,10 @@ const Layout = ({ children }) => {
                   <ListItemIcon>
                     <Login />
                   </ListItemIcon>
-                  <ListItemText primary="Login" sx={{ color: "black" }} />
+                  <ListItemText
+                    primary="Login"
+                    sx={{ color: theme.palette.text.primary }}
+                  />
                 </ListItem>
               </>
             )}
@@ -202,15 +237,25 @@ const Layout = ({ children }) => {
                 <ListItemIcon>
                   <Logout />
                 </ListItemIcon>
-                <ListItemText primary="Log Out" sx={{ color: "black" }} />
+                <ListItemText
+                  primary="Log Out"
+                  sx={{ color: theme.palette.text.primary }}
+                />
               </ListItem>
             )}
           </List>
         </Drawer>
       )}
-
       {/* Main Content */}
-      <Box component="main" sx={{ flexGrow: 1, p: 2, mt: 10 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 2,
+          mt: 10,
+          bgcolor: theme.palette.background.default,
+        }}
+      >
         {children}
       </Box>
     </Box>
