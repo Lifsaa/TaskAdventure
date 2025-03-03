@@ -29,7 +29,6 @@ const App = () => {
           />
           <Route path="/tasks" element={<TaskPage token={token} />} />{" "}
           <Route path="/calendar" element={<CalendarPage token={token} />} />{" "}
-          <Route path="/contactus" element={<ContactUsPage token={token} />} />{" "}
           <Route path="/contact" element={<ContactUsPage />} />
         </Routes>
       </div>
