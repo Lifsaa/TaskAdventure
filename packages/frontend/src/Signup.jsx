@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css";
 
 const Signup = ({ setToken }) => {
+  const [email, setEmail] = useState(""); 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -25,13 +26,14 @@ const Signup = ({ setToken }) => {
       const response = await fetch("http://localhost:5000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, username, password}),
       });
       const data = await response.json();
       if (response.ok) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
         setMessage("Signup successful!");
+        navigate("/tasks");
       } else {
         setMessage(`Signup failed: ${data.message || response.statusText}`);
       }
@@ -46,6 +48,16 @@ const Signup = ({ setToken }) => {
       <form onSubmit={handleSubmit} className={styles["signup-form"]}>
         <div className={styles["input-container"]}>
           <input
+            type="email" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder=" "
+          />
+          <label>Email</label>
+        </div>
+        <div className={styles["input-container"]}>
+          <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -54,7 +66,6 @@ const Signup = ({ setToken }) => {
           />
           <label>Username</label>
         </div>
-
         <div className={styles["input-container"]}>
           <input
             type="password"
@@ -65,7 +76,6 @@ const Signup = ({ setToken }) => {
           />
           <label>Password</label>
         </div>
-
         <div className={styles["input-container"]}>
           <input
             type="password"
@@ -76,11 +86,9 @@ const Signup = ({ setToken }) => {
           />
           <label>Confirm Password</label>
         </div>
-
         <div className="button-container">
           <button type="submit">Sign Up</button>
-          <button type="button"
-            onClick={back}>Back</button>
+          <button type="button" onClick={back}>Back</button>
         </div>
       </form>
       {message && <p className={styles["error-message"]}>{message}</p>}

@@ -34,6 +34,34 @@ const taskSchema = new mongoose.Schema({
 });
 const Task = mongoose.model("Task", taskSchema);
 
+// Contact Schema
+
+const contactSchema = new mongoose.Schema(
+  {
+    name:String,
+    email:String,
+    message: String,
+    createdAt: {type:Date, default:Date.now},
+  }
+);
+const Contact = mongoose.model("Contact", contactSchema);
+
+app.post("/contact", async (req,res)=>
+{
+  const {name, email,message} = req.body;
+  if (!name || !email || !message) {
+    return res.status(400).send("All fields are required.");
+  }
+  try {
+    const newContact = new Contact({ name, email, message });
+    await newContact.save();
+    res.status(201).send("Message received");
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+});
+
+
 // Authentication Routes
 app.post("/signup", registerUser);
 app.post("/login", loginUser);
