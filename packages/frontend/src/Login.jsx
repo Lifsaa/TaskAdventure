@@ -20,6 +20,7 @@ const Login = ({ setToken }) => {
       if (response.ok) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
+        navigate("/tasks");
       } else {
         setMessage("Invalid credentials");
       }
