@@ -2,19 +2,22 @@ import React from "react";
 
 const ProgressBar = ({ level, xp, maxXp, color }) => {
   const progress = Math.min((xp / maxXp) * 100, 100); // Cap at 100%
+
   return (
     <div className="mb-4">
       <p className="text-lg font-semibold">Level {level}</p>
       <p className="text-sm text-gray-500 mb-2">
         {xp}/{maxXp} XP to Next Level
       </p>
-      <div className="w-full bg-gray-200 rounded-full h-4 relative overflow-hidden shadow-sm">
+      {/* Parent container (Grey background, fixed height) */}
+      <div className="w-full bg-gray-200 rounded-full shadow-sm overflow-hidden" style={{ height: "15px", backgroundColor: 'gray', width: "500px"}}>
+        {/* Child bar (Colored progress) */}
         <div
-          className={`h-full rounded-full transition-all duration-500`}
+          className="rounded-full transition-all duration-500"
           style={{
             width: `${progress}%`,
-            height: '10px',
             backgroundColor: color,
+            height: "15px", // Same height as parent
           }}
         />
       </div>
