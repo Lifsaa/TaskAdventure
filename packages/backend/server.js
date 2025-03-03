@@ -16,6 +16,8 @@ if (!mongoURI) {
   process.exit(1);
 }
 
+const PORT = process.env.PORT || 5001;
+
 mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB Atlas"))
@@ -24,15 +26,27 @@ mongoose
     process.exit(1);
   });
 
-// Task Schema
-const taskSchema = new mongoose.Schema({
-  label: String,
-  date: String,
-  difficulty: String,
-  checked: Boolean,
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-});
-const Task = mongoose.model("Task", taskSchema);
+  //Task Stat Schema
+  const taskSchema = new mongoose.Schema({
+    label: String,
+    date: String,
+    difficulty: String,
+    socialstat: String,
+    checked: Boolean,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  });
+  const Task = mongoose.model("Task", taskSchema);
+  
+  //Social Stat Schema
+  const socialstatSchema = new mongoose.Schema({
+    name: String,
+    lv: Number,
+    xpNextLevel: Number,
+    xpGainedThisLv: Number,
+    totalXpGained: Number,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  });
+  const SocialStat = mongoose.model("SocialStat", taskSchema);
 
 // Contact Schema
 
@@ -78,10 +92,17 @@ app.get("/tasks", authenticateUser, async (req, res) => {
 
 app.post("/tasks", authenticateUser, async (req, res) => {
   const { label, date, difficulty } = req.body;
-  if (!label || !date || !difficulty) return res.status(400).send("Missing fields");
+  if (!label || !date || !difficulty)
+    return res.status(400).send("Missing fields");
 
   try {
-    const newTask = new Task({ label, date, difficulty, checked: false, userId: req.userId });
+    const newTask = new Task({
+      label,
+      date,
+      difficulty,
+      checked: false,
+      userId: req.userId,
+    });
     await newTask.save();
     res.status(201).json(newTask);
   } catch (error) {
