@@ -16,6 +16,8 @@ if (!mongoURI) {
   process.exit(1);
 }
 
+const PORT = process.env.PORT || 5001;
+
 mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB Atlas"))
@@ -36,19 +38,16 @@ const Task = mongoose.model("Task", taskSchema);
 
 // Contact Schema
 
-const contactSchema = new mongoose.Schema(
-  {
-    name:String,
-    email:String,
-    message: String,
-    createdAt: {type:Date, default:Date.now},
-  }
-);
+const contactSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
+  createdAt: { type: Date, default: Date.now },
+});
 const Contact = mongoose.model("Contact", contactSchema);
 
-app.post("/contact", async (req,res)=>
-{
-  const {name, email,message} = req.body;
+app.post("/contact", async (req, res) => {
+  const { name, email, message } = req.body;
   if (!name || !email || !message) {
     return res.status(400).send("All fields are required.");
   }
@@ -60,7 +59,6 @@ app.post("/contact", async (req,res)=>
     res.status(500).send("Server error");
   }
 });
-
 
 // Authentication Routes
 app.post("/signup", registerUser);
@@ -78,10 +76,17 @@ app.get("/tasks", authenticateUser, async (req, res) => {
 
 app.post("/tasks", authenticateUser, async (req, res) => {
   const { label, date, difficulty } = req.body;
-  if (!label || !date || !difficulty) return res.status(400).send("Missing fields");
+  if (!label || !date || !difficulty)
+    return res.status(400).send("Missing fields");
 
   try {
-    const newTask = new Task({ label, date, difficulty, checked: false, userId: req.userId });
+    const newTask = new Task({
+      label,
+      date,
+      difficulty,
+      checked: false,
+      userId: req.userId,
+    });
     await newTask.save();
     res.status(201).json(newTask);
   } catch (error) {
@@ -106,11 +111,11 @@ app.delete("/tasks/:id", authenticateUser, async (req, res) => {
   const { id } = req.params;
   try {
     const result = await Task.deleteOne({ _id: id, userId: req.userId });
-    if (result.deletedCount === 0) return res.status(404).send("Task not found");
+    if (result.deletedCount === 0)
+      return res.status(404).send("Task not found");
     res.status(204).send();
   } catch (error) {
     res.status(500).send("Server error");
   }
 });
-
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
