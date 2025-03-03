@@ -11,7 +11,6 @@ import Signup from "./Signup";
 import CalendarPage from "./CalendarPage";
 import Layout from "./Layout"; 
 import ContactUsPage from "./ContactUsPage"; 
-
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
