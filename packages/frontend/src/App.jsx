@@ -9,6 +9,7 @@ import TaskPage from "./TaskPage";
 import Login from "./Login";
 import Signup from "./Signup";
 import CalendarPage from "./CalendarPage";
+import StatsPage from "./StatsPage";
 import ContactUsPage from "./ContactUsPage";
 import Layout from "./Layout"; // Import Layout component
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
@@ -65,6 +66,7 @@ const App = () => {
             />
             <Route path="/tasks" element={<TaskPage token={token} />} />
             <Route path="/calendar" element={<CalendarPage token={token} />} />
+            <Route path="/stats" element={<StatsPage token={token} />} />
             <Route path="/contact" element={<ContactUsPage />} />
           </Routes>
         </Layout>
@@ -74,3 +76,4 @@ const App = () => {
 };
 
 export default App;
+

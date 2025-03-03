@@ -1,0 +1,27 @@
+:root {
+  --progress-bar-height: 25px;
+  --progress-bar-color: #4CAF50;
+  --background-color: #e0e0e0;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: var(--background-color);
+  border-radius: 25px;
+  height: var(--progress-bar-height);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--progress-bar-color);
+  width: 0%; /* This will be dynamically updated */
+  border-radius: 25px;
+  transition: width 0.3s ease;
+}
+
+.bg-glass {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
