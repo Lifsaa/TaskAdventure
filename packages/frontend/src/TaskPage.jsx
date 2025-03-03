@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TaskPage.module.css";
+import { useTheme } from "@mui/material/styles";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  Paper,
+  IconButton,
+} from "@mui/material";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 
 const TaskPage = ({ token }) => {
   const [tasks, setTasks] = useState([]);
@@ -7,7 +19,7 @@ const TaskPage = ({ token }) => {
   const [newDate, setNewDate] = useState("");
   const [newDifficulty, setNewDifficulty] = useState("Easy");
   const [newSocialStat, setNewSocialStat] = useState("Intelligence");
-
+  const theme = useTheme(); // Get current theme
   // Fetch tasks from the backend
   useEffect(() => {
     const fetchTasks = async () => {
@@ -54,7 +66,7 @@ const TaskPage = ({ token }) => {
         setNewTask("");
         setNewDate("");
         setNewDifficulty("Easy");
-        setNewSocialStat("Intelligence")
+        setNewSocialStat("Intelligence");
       }
     } catch (error) {
       console.error("Error adding task:", error);
@@ -117,52 +129,157 @@ const TaskPage = ({ token }) => {
   };
 
   return (
-    <div className={styles["task-container"]}>
-      <h1 className={styles["task-title"]}>⚔️ Task Adventure</h1>
+    <Box
+      sx={{
+        maxWidth: "700px",
+        margin: "50px auto",
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: theme.palette.background.default,
+        borderRadius: "12px",
+        boxShadow:
+          theme.palette.mode === "dark"
+            ? "0 4px 8px rgba(255, 255, 255, 0.1)"
+            : "0 4px 8px rgba(0, 0, 0, 0.1)",
+        textAlign: "center",
+        color: theme.palette.text.primary,
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: "bold",
+          color: theme.palette.primary.main,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+          marginBottom: "15px",
+        }}
+      >
+        ⚔️ Task Adventure
+      </Typography>
 
       {/* Input Section */}
-      <div className={styles["input-container"]}>
-        <input
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <TextField
+          variant="outlined"
           type="text"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
           placeholder="Enter a new task"
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            borderRadius: "8px",
+            flex: 1,
+            maxWidth: "200px",
+          }}
         />
-        <input
+        <TextField
+          variant="outlined"
           type="date"
           value={newDate}
           onChange={(e) => setNewDate(e.target.value)}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            borderRadius: "8px",
+            flex: 1,
+            maxWidth: "200px",
+          }}
         />
-        <select
+        <Select
           value={newDifficulty}
           onChange={(e) => setNewDifficulty(e.target.value)}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            borderRadius: "8px",
+            flex: 1,
+            maxWidth: "200px",
+          }}
         >
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
-        </select>
-        <select
+          <MenuItem value="Easy">Easy</MenuItem>
+          <MenuItem value="Medium">Medium</MenuItem>
+          <MenuItem value="Hard">Hard</MenuItem>
+        </Select>
+        <Select
           value={newSocialStat}
           onChange={(e) => setNewSocialStat(e.target.value)}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            borderRadius: "8px",
+            flex: 1,
+            maxWidth: "200px",
+          }}
         >
-          <option value="Creativity">Creativity</option>
-          <option value="Healthfulness">Healthfulness</option>
-          <option value="Intelligence">Intelligence</option>
-          <option value="Kindness">Kindness</option>
-          <option value="Proficiency">Proficiency</option>
-          <option value="Sociability">Sociability</option>
-        </select>
-        <button onClick={addTask}>Add Task</button>
-      </div>
+          <MenuItem value="Creativity">Creativity</MenuItem>
+          <MenuItem value="Healthfulness">Healthfulness</MenuItem>
+          <MenuItem value="Intelligence">Intelligence</MenuItem>
+          <MenuItem value="Kindness">Kindness</MenuItem>
+          <MenuItem value="Proficiency">Proficiency</MenuItem>
+          <MenuItem value="Sociability">Sociability</MenuItem>
+        </Select>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={addTask}
+          sx={{
+            padding: "10px 14px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+        >
+          Add Task
+        </Button>
+      </Box>
 
       {/* Active Tasks */}
-      <h2 className={styles["task-section"]}>📝 Active Tasks</h2>
+      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
+        📝 Active Tasks
+      </Typography>
       {activeTasks.length === 0 && (
-        <p className={styles["empty-message"]}>No active tasks!</p>
+        <Typography
+          sx={{ textAlign: "left", color: theme.palette.text.secondary }}
+        >
+          No active tasks!
+        </Typography>
       )}
-       <div className={styles["task-list"]}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          marginTop: "10px",
+        }}
+      >
         {activeTasks.map((task) => (
-          <div className={styles["task-card"]} key={task._id}>
+          <Paper
+            key={task._id}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "12px",
+              borderRadius: "10px",
+              backgroundColor: theme.palette.background.paper,
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 2px 5px rgba(255, 255, 255, 0.1)"
+                  : "0 2px 5px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <label>
               <input
                 type="checkbox"
@@ -171,61 +288,81 @@ const TaskPage = ({ token }) => {
               />
               {task.label} - {task.date}
             </label>
-            <button
-              onClick={() => removeTask(task._id)}
-              className={styles["delete-btn"]}
-            />
-            <span>
-              {task.difficulty}
-            </span>
-            <span
-              className="socialstat"
-              style={{ backgroundColor: "#A020F0"}}
-            >
-              {task.socialstat}
-            </span>
-            <button onClick={() => removeTask(task.id)}>
-              ❌
-            </button>
-          </div>
+            <IconButton onClick={() => removeTask(task._id)} color="error">
+              <DeleteIcon />
+            </IconButton>
+          </Paper>
         ))}
-      </div>
+      </Box>
 
       {/* Completed Tasks */}
-      <h2 className={styles["task-section"]}>🎯 Completed Tasks</h2>
+      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
+        🎯 Completed Tasks
+      </Typography>
       {completedTasks.length === 0 && (
-        <p className={styles["empty-message"]}>No completed tasks!</p>
+        <Typography
+          sx={{ textAlign: "left", color: theme.palette.text.secondary }}
+        >
+          No completed tasks!
+        </Typography>
       )}
-      <div className={styles["task-list"]}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          marginTop: "10px",
+        }}
+      >
         {completedTasks.map((task) => (
-          <div className={styles["completed"]} key={task._id}>
+          <Paper
+            key={task._id}
+            sx={{
+              backgroundColor: theme.palette.success.light,
+              color: theme.palette.success.dark,
+              textDecoration: "line-through",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "12px",
+              borderRadius: "10px",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 2px 5px rgba(255, 255, 255, 0.1)"
+                  : "0 2px 5px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             <label>
               <input type="checkbox" checked={task.checked} />
-              <s>
+              <Typography component="s">
                 {task.label} - {task.date}
-              </s>
+              </Typography>
             </label>
-            <button
-              onClick={() => removeTask(task._id)}
-              className={styles["delete-btn"]}
-            >
-              ❌
-            </button>
-          </div>
+            <IconButton onClick={() => removeTask(task._id)} color="error">
+              <DeleteIcon />
+            </IconButton>
+          </Paper>
         ))}
-      </div>
-      <button
+      </Box>
+
+      <Button
+        variant="contained"
+        color="error"
         onClick={() => {
           localStorage.removeItem("token");
           window.location.href = "/login";
         }}
-        className={styles["logout-btn"]}
+        sx={{
+          padding: "10px 14px",
+          borderRadius: "8px",
+          fontSize: "14px",
+          marginTop: "20px",
+        }}
       >
         Log Out
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 };
 
 export default TaskPage;
-
