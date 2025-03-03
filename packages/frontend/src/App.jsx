@@ -28,7 +28,7 @@ const App = () => {
           />
           <Route path="/tasks" element={<TaskPage token={token} />} />
           <Route path="/calendar" element={<CalendarPage token={token} />} />
-          <Route path="/contact" element={<StatsPage />} />
+          <Route path="/stats" element={<StatsPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
         </Routes>
       </Layout>
