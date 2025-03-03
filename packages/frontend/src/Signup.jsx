@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css";
 
 const Signup = ({ setToken }) => {
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
+
   function back() {
-    navigate('/')
+    navigate("/");
   }
 
   const handleSubmit = async (e) => {
@@ -23,10 +25,10 @@ const Signup = ({ setToken }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/signup", {
+      const response = await fetch(`${API_BASE_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, username, password}),
+        body: JSON.stringify({ email, username, password }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -48,7 +50,7 @@ const Signup = ({ setToken }) => {
       <form onSubmit={handleSubmit} className={styles["signup-form"]}>
         <div className={styles["input-container"]}>
           <input
-            type="email" 
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -88,7 +90,9 @@ const Signup = ({ setToken }) => {
         </div>
         <div className="button-container">
           <button type="submit">Sign Up</button>
-          <button type="button" onClick={back}>Back</button>
+          <button type="button" onClick={back}>
+            Back
+          </button>
         </div>
       </form>
       {message && <p className={styles["error-message"]}>{message}</p>}

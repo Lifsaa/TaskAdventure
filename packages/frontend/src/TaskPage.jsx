@@ -20,11 +20,14 @@ const TaskPage = ({ token }) => {
   const [newDifficulty, setNewDifficulty] = useState("Easy");
   const [newSocialStat, setNewSocialStat] = useState("Intelligence");
   const theme = useTheme(); // Get current theme
+
+  const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
+
   // Fetch tasks from the backend
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("http://localhost:5000/tasks", {
+        const response = await fetch(`${API_BASE_URL}/tasks`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.ok) {
@@ -52,7 +55,7 @@ const TaskPage = ({ token }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/tasks", {
+      const response = await fetch(`${API_BASE_URL}/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +79,7 @@ const TaskPage = ({ token }) => {
   // Toggle task checked status
   const toggleTask = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -92,7 +95,7 @@ const TaskPage = ({ token }) => {
   // Delete a task
   const removeTask = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
