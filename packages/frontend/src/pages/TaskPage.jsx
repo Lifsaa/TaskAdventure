@@ -238,7 +238,7 @@ const TaskPage = ({ token }) => {
           color="primary"
           onClick={addTask}
           sx={{
-            padding: "10px 14px",
+            padding: "8px 12px",
             borderRadius: "8px",
             cursor: "pointer",
             fontSize: "14px",
@@ -291,9 +291,11 @@ const TaskPage = ({ token }) => {
               />
               {task.label} - {task.date}
             </label>
-            <IconButton onClick={() => removeTask(task._id)} color="error">
-              <DeleteIcon />
-            </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton onClick={() => removeTask(task._id)} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </Paper>
         ))}
       </Box>
@@ -336,14 +338,20 @@ const TaskPage = ({ token }) => {
             }}
           >
             <label>
-              <input type="checkbox" checked={task.checked} />
+              <input
+                type="checkbox"
+                checked={task.checked}
+                onChange={() => toggleTask(task._id)}
+              />
               <Typography component="s">
                 {task.label} - {task.date}
               </Typography>
             </label>
-            <IconButton onClick={() => removeTask(task._id)} color="error">
-              <DeleteIcon />
-            </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton onClick={() => removeTask(task._id)} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </Paper>
         ))}
       </Box>
