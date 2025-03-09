@@ -143,9 +143,8 @@
 }
 /* Align empty task messages to the left */
 .empty-message {
-    text-align: left;
-    font-size: 1rem;
-    color: #555;
-    margin-left: 20px;
-  }
-  
+  text-align: left;
+  font-size: 1rem;
+  color: #555;
+  margin-left: 20px;
+}

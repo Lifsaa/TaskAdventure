@@ -1,5 +1,5 @@
 {
-  "workspaces" : [
+  "workspaces": [
     "packages/backend",
     "packages/frontend"
   ],
