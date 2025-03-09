@@ -94,7 +94,9 @@ const Layout = ({ children, toggleDarkMode, darkMode }) => {
             <Avatar
               sx={{ bgcolor: "blue", mx: "auto", width: 56, height: 56 }}
             />
-            <Typography variant="h6">User</Typography>
+            <Typography variant="h6">
+              {localStorage.getItem("username" || "User")}
+            </Typography>
           </Box>
           <List>
             {/* Protected Pages (Only for Logged-in Users) */}
@@ -231,6 +233,7 @@ const Layout = ({ children, toggleDarkMode, darkMode }) => {
                 button
                 onClick={() => {
                   localStorage.removeItem("token"); // Clear token on logout
+                  localStorage.removeItem("username"); // Clear username on logout
                   window.location.href = "/login"; // Redirect to login page
                 }}
               >
