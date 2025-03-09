@@ -1,6 +1,6 @@
 {
   "workspaces" : [
-    "pckages/backend",
+    "packages/backend",
     "packages/frontend"
   ],
   "devDependencies": {
