@@ -34,6 +34,7 @@ const Signup = ({ setToken }) => {
       if (response.ok) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("username", username); // Store username in local storage
         setMessage("Signup successful!");
         navigate("/tasks");
       } else {
