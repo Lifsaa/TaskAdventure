@@ -2,7 +2,7 @@ name: CI Testing
 
 on:
   push:
-    branches: [main]
+    branches: [main,lifsa-te6]
   pull_request:
     branches: [main]
   workflow_dispatch:
