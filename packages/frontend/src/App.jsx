@@ -5,13 +5,13 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import TaskPage from "./TaskPage";
-import Login from "./Login";
-import Signup from "./Signup";
-import CalendarPage from "./CalendarPage";
-import StatsPage from "./StatsPage";
-import ContactUsPage from "./ContactUsPage";
-import Layout from "./Layout"; // Import Layout component
+import TaskPage from "./pages/TaskPage";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import CalendarPage from "./pages/CalendarPage";
+import StatsPage from "./pages/StatsPage";
+import ContactUsPage from "./pages/ContactUsPage";
+import Layout from "./components/Layout"; // Import Layout component
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 
 const App = () => {

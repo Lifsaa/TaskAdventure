@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Signup.module.css";
+import styles from "../styles/Signup.module.css";
 
 const Signup = ({ setToken }) => {
   const [email, setEmail] = useState("");

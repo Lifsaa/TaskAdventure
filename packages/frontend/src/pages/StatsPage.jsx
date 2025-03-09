@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../styles/StatsPage.module.css";
 
 const ProgressBar = ({ level, xp, maxXp, color }) => {
   const progress = Math.min((xp / maxXp) * 100, 100); // Cap at 100%
@@ -10,7 +11,10 @@ const ProgressBar = ({ level, xp, maxXp, color }) => {
         {xp}/{maxXp} XP to Next Level
       </p>
       {/* Parent container (Grey background, fixed height) */}
-      <div className="w-full bg-gray-200 rounded-full shadow-sm overflow-hidden" style={{ height: "15px", backgroundColor: 'gray', width: "500px"}}>
+      <div
+        className="w-full bg-gray-200 rounded-full shadow-sm overflow-hidden"
+        style={{ height: "15px", backgroundColor: "gray", width: "500px" }}
+      >
         {/* Child bar (Colored progress) */}
         <div
           className="rounded-full transition-all duration-500"
