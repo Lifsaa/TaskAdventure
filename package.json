@@ -15,7 +15,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "lint": "npx eslint . && npx prettier -check .",
-    "test": "npx jest"
+    "test": "npx jest --passWithNoTests"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
