@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.css";
+import styles from "../styles/Login.module.css";
 
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState("");
@@ -13,7 +13,7 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -31,10 +31,9 @@ const Login = ({ setToken }) => {
     }
   };
 
-
-    const signUp = () => {
-        navigate('/signup')
-    }
+  const signUp = () => {
+    navigate("/signup");
+  };
 
   return (
     <div className={styles["login-container"]}>
@@ -62,11 +61,12 @@ const Login = ({ setToken }) => {
           <label>Password</label>
         </div>
 
-          <div className="button-container">
-            <button type="submit">Log In</button>
-            <button onClick={signUp}
-                type="button">Sign Up</button>
-          </div>
+        <div className="button-container">
+          <button type="submit">Log In</button>
+          <button onClick={signUp} type="button">
+            Sign Up
+          </button>
+        </div>
       </form>
 
       {message && <p className={styles["error-message"]}>{message}</p>}

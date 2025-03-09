@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Signup.module.css";
+import styles from "../styles/Signup.module.css";
 
 const Signup = ({ setToken }) => {
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const Signup = ({ setToken }) => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/signup`, {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),

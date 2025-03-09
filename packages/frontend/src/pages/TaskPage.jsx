@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./TaskPage.module.css";
+import styles from "../styles/TaskPage.module.css";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,

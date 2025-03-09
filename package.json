@@ -5,7 +5,7 @@
     "prettier": "^3.5.0"
   },
   "scripts": {
-    "dev:backend": "cd packages/backend && npx nodemon server.js",
+    "dev:backend": "cd packages/backend && npx nodemon src/server.js",
     "dev:frontend": "cd packages/frontend && npm run dev",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
