@@ -26,15 +26,27 @@ mongoose
     process.exit(1);
   });
 
-// Task Schema
-const taskSchema = new mongoose.Schema({
-  label: String,
-  date: String,
-  difficulty: String,
-  checked: Boolean,
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-});
-const Task = mongoose.model("Task", taskSchema);
+  //Task Stat Schema
+  const taskSchema = new mongoose.Schema({
+    label: String,
+    date: String,
+    difficulty: String,
+    socialstat: String,
+    checked: Boolean,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  });
+  const Task = mongoose.model("Task", taskSchema);
+  
+  //Social Stat Schema
+  const socialstatSchema = new mongoose.Schema({
+    name: String,
+    lv: Number,
+    xpNextLevel: Number,
+    xpGainedThisLv: Number,
+    totalXpGained: Number,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  });
+  const SocialStat = mongoose.model("SocialStat", taskSchema);
 
 // Contact Schema
 
