@@ -1,14 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
-
-// User Schema
-const userSchema = new mongoose.Schema({
-  email : { type: String, required:true, unique:true},
-  username: { type: String, required: true, unique: true },
-  hashedPassword: { type: String, required: true },
-});
-const User = mongoose.model("User", userSchema);
+import { User } from "../models/User.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Generate JWT Token
 function generateAccessToken(userId) {
@@ -20,7 +14,7 @@ function generateAccessToken(userId) {
       (error, token) => {
         if (error) reject(error);
         else resolve(token);
-      }
+      },
     );
   });
 }
@@ -28,24 +22,28 @@ function generateAccessToken(userId) {
 // Register User
 export async function registerUser(req, res) {
   const { username, password, email } = req.body;
-  console.log("Signup attempt:", { username, email, password: password ? "provided" : "missing" });
-  if (!username || !password || !email) return res.status(400).json({ error: "Invalid input" });
+  if (!username || !password || !email)
+    return res.status(400).json({ error: "Invalid input" });
+
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      if (existingUser.username === username) return res.status(409).json({ error: "Username taken" });
-      if (existingUser.email === email) return res.status(409).json({ error: "Email taken" });
+      return res.status(409).json({
+        error:
+          existingUser.username === username ? "Username taken" : "Email taken",
+      });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, hashedPassword, email });
     await user.save();
     const token = await generateAccessToken(user._id.toString());
     res.status(201).json({ token });
   } catch (error) {
-    console.error("Signup error:", error.message, error.stack);
     res.status(500).json({ error: "Server error" });
   }
 }
+
 // Login User
 export async function loginUser(req, res) {
   const { username, password } = req.body;
@@ -59,22 +57,4 @@ export async function loginUser(req, res) {
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
-}
-
-// Authentication Middleware 
-export function authenticateUser(req, res, next) {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token)
-    return res.status(401).json({ error: "No token provided" });
-
-  jwt.verify(
-    token,
-    process.env.TOKEN_SECRET || "your-secret-key",
-    (error, decoded) => {
-      if (error)
-        return res.status(401).json({ error: "Invalid token" });
-      req.userId = decoded.userId;
-      next();
-    }
-  );
 }
