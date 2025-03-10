@@ -14,6 +14,7 @@ import {
 import { Delete as DeleteIcon } from "@mui/icons-material";
 
 const TaskPage = ({ token }) => {
+  const [stats, setStats] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
@@ -23,8 +24,30 @@ const TaskPage = ({ token }) => {
 
   const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
 
-  // Fetch tasks from the backend
+
   useEffect(() => {
+    //Fetches stats from backend to initialize them
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stats`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length === 0) {
+            await initializeStats();
+          } else {
+            setStats(processStats(data));
+          }
+        } else {
+          console.error("Error fetching stats");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+  // Fetch tasks from the backend
     const fetchTasks = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/tasks`, {
@@ -40,8 +63,43 @@ const TaskPage = ({ token }) => {
         console.error("Fetch error:", error);
       }
     };
+    fetchStats();
     fetchTasks();
-  }, [token]);
+  }, 
+  [token]);
+
+  //Initializes stats if not set up yet
+  const initializeStats = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      });
+
+      if (response.ok) {
+        const newStats = await response.json();
+        const processedStats = processStats(newStats);
+        setStats(processedStats);
+      } else {
+        console.error("Error initializing stats");
+      }
+    } catch (error) {
+      console.error("Error during stats initialization:", error);
+    }
+  };
+
+  //Processes stats
+  const processStats = (stats) => {
+    return stats.map(stat => ({
+      ...stat,
+      level: Math.ceil((stat.xp + 0.1) / 100),
+      xpRemaining: stat.xp % 100,
+      maxXp: 100 
+    }));
+  };
 
   // Add a new task
   const addTask = async () => {
