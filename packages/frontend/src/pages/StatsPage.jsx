@@ -85,7 +85,7 @@ const StatsPage = ({ token }) => {
         <h3 className="text-2xl font-semibold text-gray-900">Overall Level: {totalLevel}</h3>
         <p className="text-lg text-gray-700">Total XP: {totalXp}</p>
         <p className="text-lg text-gray-700">{totalXp % 500}/{500} XP towards Next Level</p>
-        <BigProgressBar level={totalLevel} xp= {totalXp % 500} maxXp={500} color={"#BBBBBB"} />
+        <BigProgressBar level={totalLevel} xp= {totalXp % 500} maxXp={500} color={"#555555"} />
       </div>
       {stats.length > 0 ? (
         stats.map((stat) => (
@@ -110,8 +110,8 @@ const ProgressBar = ({ level, xp, maxXp, color }) => {
       <p className="text-sm text-gray-500 mb-2">
         {xp}/{maxXp} XP towards Next Level
       </p>
-      <div className="w-full bg-gray-200 rounded-full shadow-sm overflow-hidden" style={{ height: "15px", width: "500px" }}>
-        <div className="rounded-full transition-all duration-500" style={{ width: `${progress}%`, backgroundColor: color, height: "15px" }} />
+      <div className="w-full bg-gray-300 rounded-full shadow-sm overflow-hidden relative" style={{ height: "15px", width: "500px", backgroundColor: "#CCCCCC" }}>
+        <div className="absolute top-0 left-0 rounded-full transition-all duration-500" style={{ width: `${progress}%`, backgroundColor: color, height: "15px" }} />
       </div>
     </div>
   );
@@ -122,8 +122,8 @@ const BigProgressBar = ({ level, xp, maxXp, color }) => {
 
   return (
     <div className="mb-4">
-      <div className="w-full bg-gray-200 rounded-full shadow-sm overflow-hidden" style={{ height: "20px", width: "500px" }}>
-        <div className="rounded-full transition-all duration-500" style={{ width: `${progress}%`, backgroundColor: color, height: "20px" }} />
+      <div className="w-full bg-gray-300 rounded-full shadow-sm overflow-hidden relative" style={{ height: "20px", width: "500px", backgroundColor: "#CCCCCC" }}>
+        <div className="absolute top-0 left-0 rounded-full transition-all duration-500" style={{ width: `${progress}%`, backgroundColor: color, height: "20px" }} />
       </div>
     </div>
   );
