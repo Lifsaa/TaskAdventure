@@ -52,6 +52,7 @@ const TaskPage = ({ token }) => {
       difficulty: newDifficulty,
       socialstat: newSocialStat,
       checked: false,
+      xpGained: false,
     };
 
     try {
@@ -82,8 +83,8 @@ const toggleTask = async (id) => {
     // First get the task to check its current state
     const task = tasks.find(t => t._id === id);
     
-    // If the task is being marked as complete (not already checked), prepare to update stats
-    const isCompleting = task && !task.checked;
+    // If the task is being marked as complete (not already checked and no xp gained from completion), prepare to update stats
+    const isCompleting = task && !task.checked && !task.xpGained;
     
     // Update task status
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {

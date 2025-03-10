@@ -6,6 +6,7 @@ const taskSchema = new mongoose.Schema({
   difficulty: String,
   socialstat: String,
   checked: Boolean,
+  xpGained: Boolean,
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
