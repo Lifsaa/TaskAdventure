@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import CalendarPage from "./pages/CalendarPage";
 import StatsPage from "./pages/StatsPage";
 import ContactUsPage from "./pages/ContactUsPage";
+import UserInfo from "./pages/UserInfo";
 import Layout from "./components/Layout"; // Import Layout component
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 
@@ -68,6 +69,7 @@ const App = () => {
             <Route path="/calendar" element={<CalendarPage token={token} />} />
             <Route path="/stats" element={<StatsPage token={token} />} />
             <Route path="/contact" element={<ContactUsPage />} />
+            <Route path="/userinfo" element={<UserInfo />} />
           </Routes>
         </Layout>
       </Router>
