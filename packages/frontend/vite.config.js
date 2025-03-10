@@ -7,7 +7,8 @@ export default defineConfig({
     port: 5173, // Change if needed
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target:
+          "https://taskadventure-d4eqd3hefccfhmdp.westus-01.azurewebsites.net",
         changeOrigin: true,
         secure: false,
       },

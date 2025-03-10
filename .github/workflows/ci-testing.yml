@@ -1,0 +1,35 @@
+name: CI Testing
+
+on:
+  push:
+    branches: [main, lifsa-te6]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.12.0
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint Backend
+        run: npm run -w packages/backend lint
+
+      - name: Lint Frontend
+        run: npm run -w packages/frontend lint
+
+      - name: Build Frontend
+        run: npm run -w packages/frontend build --if-present
+
+      - name: Run Tests
+        run: npm run test
