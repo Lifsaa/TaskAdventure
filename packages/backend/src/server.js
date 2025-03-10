@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import taskRoutes from "./routes/taskRoutes.js";
+import statsRoutes from "./routes/statsRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
@@ -31,6 +32,7 @@ mongoose
 
 // Routes
 app.use("/tasks", taskRoutes);
+app.use("/stats", statsRoutes);
 app.use("/contact", contactRoutes);
 
 // Authentication Routes
