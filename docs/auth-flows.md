@@ -1,6 +1,7 @@
 # Authentication Flows
 
 ## Sign-Up Flow
+
 ```mermaid
 sequenceDiagram
   participant U as User
@@ -29,10 +30,12 @@ sequenceDiagram
       F-->>U: Display "Signup failed: Username taken"
     end
   else Validation fails
-    F-->>U: Implicit validation via form 
+    F-->>U: Implicit validation via form
   end
 ```
+
 ## Sign-In Flow
+
 ```mermaid
 sequenceDiagram
   participant U as User
@@ -68,8 +71,10 @@ sequenceDiagram
     F-->>U: Implicit validation via form (no explicit message)
   end
 ```
+
 ## /GET Users
-``` mermaid
+
+```mermaid
 sequenceDiagram
   participant U as User
   participant F as Frontend
