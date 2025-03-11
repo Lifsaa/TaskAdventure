@@ -8,8 +8,7 @@ import {
 } from "@mui/material";
 
 const TaskPage = ({ token }) => {
-  const [username, setUsername] = useState("username");
-  const [email, setEmail] = useState("email");
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const [tasks, setTasks] = useState([]);
   const theme = useTheme(); // Get current theme
 
@@ -33,28 +32,10 @@ const TaskPage = ({ token }) => {
       }
     };
 
-    const fetchUsername = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/username`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setUsername(data);
-        } else {
-          console.error("Error fetching username");
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
     fetchTasks();
-    fetchUsername();
   }, [token]);
 
-
-
+  const completedTasks = tasks.filter((task) => task.checked);
 
   return (
     <Box
@@ -98,27 +79,9 @@ const TaskPage = ({ token }) => {
         
       </div>
 
-      {/* Email Address */}
-      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
-        ✉️ Email Address
-      </Typography>
-      <Typography
-        sx={{ textAlign: "left", color: theme.palette.text.secondary, marginLeft:"30px"}}>
-        {email}
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-          marginTop: "10px",
-        }}
-      >
-      </Box>
-
       {/* Tasks Completed */}
       <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
-       ⚡ Tasks Completed
+       ⚡ Total Tasks
       </Typography>
       <Typography
         sx={{ textAlign: "left", color: theme.palette.text.secondary, marginLeft: "30px"}}>
@@ -133,6 +96,33 @@ const TaskPage = ({ token }) => {
         }}
       >
       </Box>
+
+      {/* Tasks Completed */}
+      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
+       ✅ Tasks Completed
+      </Typography>
+      <Typography
+        sx={{ textAlign: "left", color: theme.palette.text.secondary, marginLeft: "30px"}}>
+        {completedTasks.length}
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          marginTop: "10px",
+        }}
+    >
+    <button
+      onClick={() => {
+        localStorage.removeItem("token"); // Clear token on logout
+        localStorage.removeItem("username"); // Clear username on logout
+        window.location.href = "/login"; // Redirect to login page
+      }}
+    > Log Out </button>
+    </Box>
+
+
     </Box>
   );
 };
