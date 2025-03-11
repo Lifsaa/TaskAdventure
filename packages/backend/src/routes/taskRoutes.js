@@ -16,8 +16,8 @@ router.get("/", authenticateUser, async (req, res) => {
 
 // Create a new task
 router.post("/", authenticateUser, async (req, res) => {
-  const { label, date, difficulty } = req.body;
-  if (!label || !date || !difficulty)
+  const { label, date, difficulty, socialstat } = req.body;
+  if (!label || !date || !difficulty || !socialstat)
     return res.status(400).send("Missing fields");
 
   try {
@@ -25,7 +25,9 @@ router.post("/", authenticateUser, async (req, res) => {
       label,
       date,
       difficulty,
+      socialstat,
       checked: false,
+      xpGained: false,
       userId: req.userId,
     });
     await newTask.save();
@@ -42,6 +44,7 @@ router.put("/:id", authenticateUser, async (req, res) => {
     const task = await Task.findOne({ _id: id, userId: req.userId });
     if (!task) return res.status(404).send("Task not found");
     task.checked = !task.checked;
+    task.xpGained = true;
     await task.save();
     res.json(task);
   } catch (error) {

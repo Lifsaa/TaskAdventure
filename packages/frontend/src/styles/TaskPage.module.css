@@ -127,6 +127,15 @@
   font-size: 12px;
 }
 
+/* Social Stat Badge */
+.socialstat {
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
 /* Red Delete Button */
 .delete-btn {
   background: #ff4d4d;
