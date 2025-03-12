@@ -69,7 +69,7 @@ const App = () => {
             <Route path="/calendar" element={<CalendarPage token={token} />} />
             <Route path="/stats" element={<StatsPage token={token} />} />
             <Route path="/contact" element={<ContactUsPage />} />
-            <Route path="/userinfo" element={<UserInfo />} />
+            <Route path="/userinfo" element={<UserInfo token={token} />} />
           </Routes>
         </Layout>
       </Router>

@@ -63,4 +63,19 @@ router.delete("/:id", authenticateUser, async (req, res) => {
   }
 });
 
+// Get task counts for authenticated user
+router.get("/count", authenticateUser, async (req, res) => {
+  try {
+    const totalTasks = await Task.countDocuments({ userId: req.userId });
+    const completedTasks = await Task.countDocuments({
+      userId: req.userId,
+      checked: true,
+    });
+    res.json({ totalTasks, completedTasks });
+  } catch (error) {
+    console.error("Error fetching task counts:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 export default router;

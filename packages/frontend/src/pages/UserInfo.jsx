@@ -1,41 +1,86 @@
 import React, { useState, useEffect } from "react";
-import styles from "../styles/TaskPage.module.css";
 import { useTheme } from "@mui/material/styles";
-import {
-  Box,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Box, Typography, Avatar } from "@mui/material";
 
-const TaskPage = ({ token }) => {
+const UserInfo = ({ token }) => {
   const [username, setUsername] = useState(localStorage.getItem("username"));
-  const [tasks, setTasks] = useState([]);
-  const theme = useTheme(); // Get current theme
+  const [email, setEmail] = useState("");
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
+  const [totalXp, setTotalXp] = useState(0);
+  const [totalLevel, setTotalLevel] = useState(1);
+  const theme = useTheme();
 
   const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
 
-  // Fetch tasks from the backend
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchUserInfo = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/tasks`, {
+        const response = await fetch(`${API_BASE_URL}/user/info`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         if (response.ok) {
-          const data = await response.json();
-          setTasks(data);
+          const { username, email } = await response.json();
+          console.log("Username:", username);
+          console.log("Email:", email);
+          setUsername(username);
+          setEmail(email);
         } else {
-          console.error("Error fetching tasks");
+          console.error("Error fetching user info, status:", response.status);
         }
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
-    fetchTasks();
-  }, [token]);
+    const fetchTaskCounts = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/tasks/count`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-  const completedTasks = tasks.filter((task) => task.checked);
+        if (response.ok) {
+          const { totalTasks, completedTasks } = await response.json();
+          console.log("Total Tasks:", totalTasks);
+          console.log("Completed Tasks:", completedTasks);
+          setTotalTasks(totalTasks);
+          setCompletedTasks(completedTasks);
+        } else {
+          console.error("Error fetching task counts, status:", response.status);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    const fetchTotalXpAndLevel = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stats/total-xp-level`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          const { totalXp, totalLevel } = await response.json();
+          console.log("Total XP:", totalXp);
+          console.log("Total Level:", totalLevel);
+          setTotalXp(totalXp);
+          setTotalLevel(totalLevel);
+        } else {
+          console.error(
+            "Error fetching total XP and level, status:",
+            response.status,
+          );
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    fetchUserInfo();
+    fetchTaskCounts();
+    fetchTotalXpAndLevel();
+  }, [token]);
 
   return (
     <Box
@@ -56,37 +101,84 @@ const TaskPage = ({ token }) => {
     >
       <Typography
         variant="h4"
-        sx={{
-          fontWeight: "bold",
-          color: theme.palette.primary.main,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "10px",
-          marginBottom: "15px",
-        }}
+        sx={{ fontWeight: "bold", color: theme.palette.primary.main }}
       >
-         User Info
+        User Info
       </Typography>
 
-      <div style={{ display: "inline-flex", alignItems:"center"}}>
-        <Avatar
-          sx={{ bgcolor: "blue", width: 100, height: 100 }}
-        />
-        <Typography variant="h6" sx={{ textAlign: "left", marginLeft: "20px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: 2,
+        }}
+      >
+        <Avatar sx={{ bgcolor: "blue", width: 100, height: 100 }} />
+        <Typography variant="h6" sx={{ mt: 1, fontWeight: "bold" }}>
           {username}
         </Typography>
-        
-      </div>
+        <Typography sx={{ color: theme.palette.text.secondary }}>
+          {email}
+        </Typography>
+      </Box>
 
-      {/* Tasks Completed */}
+      {/* Total Tasks */}
       <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
-       ⚡ Total Tasks
+        ⚡ Total Tasks
       </Typography>
       <Typography
-        sx={{ textAlign: "left", color: theme.palette.text.secondary, marginLeft: "30px"}}>
-        {tasks.length}
+        sx={{
+          textAlign: "left",
+          color: theme.palette.text.secondary,
+          marginLeft: "30px",
+        }}
+      >
+        {totalTasks}
       </Typography>
+
+      {/* Completed Tasks */}
+      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
+        ✅ Tasks Completed
+      </Typography>
+      <Typography
+        sx={{
+          textAlign: "left",
+          color: theme.palette.text.secondary,
+          marginLeft: "30px",
+        }}
+      >
+        {completedTasks}
+      </Typography>
+
+      {/* Total XP */}
+      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
+        🎮 Total XP
+      </Typography>
+      <Typography
+        sx={{
+          textAlign: "left",
+          color: theme.palette.text.secondary,
+          marginLeft: "30px",
+        }}
+      >
+        {totalXp}
+      </Typography>
+
+      {/* Total Level */}
+      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
+        🏆 Overall Level
+      </Typography>
+      <Typography
+        sx={{
+          textAlign: "left",
+          color: theme.palette.text.secondary,
+          marginLeft: "30px",
+        }}
+      >
+        Level {totalLevel}
+      </Typography>
+
       <Box
         sx={{
           display: "flex",
@@ -95,36 +187,18 @@ const TaskPage = ({ token }) => {
           marginTop: "10px",
         }}
       >
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            window.location.href = "/login";
+          }}
+        >
+          Log Out
+        </button>
       </Box>
-
-      {/* Tasks Completed */}
-      <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
-       ✅ Tasks Completed
-      </Typography>
-      <Typography
-        sx={{ textAlign: "left", color: theme.palette.text.secondary, marginLeft: "30px"}}>
-        {completedTasks.length}
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-          marginTop: "10px",
-        }}
-    >
-    <button
-      onClick={() => {
-        localStorage.removeItem("token"); // Clear token on logout
-        localStorage.removeItem("username"); // Clear username on logout
-        window.location.href = "/login"; // Redirect to login page
-      }}
-    > Log Out </button>
-    </Box>
-
-
     </Box>
   );
 };
 
-export default TaskPage;
+export default UserInfo;
