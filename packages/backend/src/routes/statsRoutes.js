@@ -2,9 +2,14 @@ import express from "express";
 import { Stats } from "../models/Stats.js";
 import { authenticateUser } from "../middleware/auth.js";
 
+
+
 const router = express.Router();
 
-// Updated default stats - includes all 7 stats with proper names
+
+let initializationInProgress = {};
+
+
 const defaultStats = [
   { name: "Creativity", xp: 0, color: "#3b82f6" },
   { name: "Healthfulness", xp: 0, color: "#278a58" },
@@ -26,23 +31,23 @@ router.get("/", authenticateUser, async (req, res) => {
 
 router.post("/initialize-stats", authenticateUser, async (req, res) => {
   try {
-    // Use userId from the auth middleware
     const userId = req.userId;
-
-    console.log("Initializing stats for user:", userId);
-
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized: No user ID" });
+    
+    // Check if initialization is already in progress for this user
+    if (initializationInProgress[userId]) {
+      return res.status(409).json({ message: "Initialization already in progress" });
     }
-
+    
+    initializationInProgress[userId] = true;
+    
     // Check if stats already exist for this user
     const existingStats = await Stats.find({ userId });
     if (existingStats.length > 0) {
-      console.log("User already has stats:", existingStats);
-      return res.status(400).json({ message: "Stats already initialized" });
+      initializationInProgress[userId] = false;
+      return res.json(existingStats); // Return existing stats instead of error
     }
 
-    // Create an array of stat objects to insert
+    // Create stats
     const statsToCreate = defaultStats.map((stat) => ({
       name: stat.name,
       xp: stat.xp,
@@ -50,12 +55,13 @@ router.post("/initialize-stats", authenticateUser, async (req, res) => {
       userId,
     }));
 
-    // Insert all stats at once
     const newStats = await Stats.insertMany(statsToCreate);
-
-    console.log("Stats initialized successfully for:", userId);
+    
+    initializationInProgress[userId] = false;
     res.status(201).json(newStats);
   } catch (error) {
+    const userId = req.userId;
+    initializationInProgress[userId] = false;
     console.error("Error initializing stats:", error);
     res.status(500).json({ message: "Internal server error" });
   }
