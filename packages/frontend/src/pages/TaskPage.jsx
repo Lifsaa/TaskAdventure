@@ -73,6 +73,22 @@ const TaskPage = ({ token }) => {
         return null;
       }
     };
+    // Fetch tasks from the backend
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/tasks`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setTasks(data);
+        } else {
+          console.error("Error fetching tasks");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
 
     // First fetch stats, then fetch tasks
     const fetchData = async () => {
