@@ -90,5 +90,25 @@ router.put("/update", authenticateUser, async (req, res) => {
   }
 });
 
+// Get total XP and level for the authenticated user
+router.get("/total-xp-level", authenticateUser, async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    // Aggregate total XP across all stats for the user
+    const stats = await Stats.find({ userId });
+    const totalXp = stats.reduce((sum, stat) => sum + stat.xp, 0);
+
+    // Calculate level (every 100 XP = 1 level up)
+    const totalLevel = Math.floor(totalXp / 100) + 1;
+
+    res.json({ totalXp, totalLevel });
+  } catch (error) {
+    console.error("Error fetching total XP and level:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 
 export default router;

@@ -6,6 +6,7 @@ import taskRoutes from "./routes/taskRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ mongoose
 app.use("/tasks", taskRoutes);
 app.use("/stats", statsRoutes);
 app.use("/contact", contactRoutes);
+app.use("/user", userRoutes);
 
 // Authentication Routes
 app.use("/auth", authRoutes);

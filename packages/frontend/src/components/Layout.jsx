@@ -160,7 +160,7 @@ const Layout = ({ children, toggleDarkMode, darkMode }) => {
             <ListItem
               button
               component={token ? Link : "div"}
-              to={token ? "/accountinfo" : "#"}
+              to={token ? "/userinfo" : "#"}
               onClick={token ? toggleDrawer : null}
               sx={{
                 opacity: token ? 1 : 0.5,
@@ -171,7 +171,7 @@ const Layout = ({ children, toggleDarkMode, darkMode }) => {
                 <Person />
               </ListItemIcon>
               <ListItemText
-                primary="Account Info"
+                primary="User Info"
                 sx={{ color: theme.palette.text.primary }}
               />
             </ListItem>
