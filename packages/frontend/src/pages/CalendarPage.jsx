@@ -10,7 +10,6 @@ const CalendarPage = () => {
   const [taskDifficulty, setTaskDifficulty] = useState("Easy");
   const [socialStat, setSocialStat] = useState("Intelligence");
 
-
   const handleAddTask = () => {
     if (!taskInput.trim()) return;
 
@@ -19,7 +18,7 @@ const CalendarPage = () => {
       text: taskInput,
       date: date.toISOString().split("T")[0],
       difficulty: taskDifficulty,
-      socialstat: socialStat
+      socialstat: socialStat,
     };
 
     setTasks([...tasks, newTask]);
