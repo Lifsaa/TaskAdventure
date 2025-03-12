@@ -110,7 +110,6 @@ const TaskPage = ({ token }) => {
       difficulty: newDifficulty,
       socialstat: newSocialStat,
       checked: false,
-      xpGained: false,
     };
 
     try {
@@ -142,7 +141,7 @@ const toggleTask = async (id) => {
     const task = tasks.find(t => t._id === id);
     
     // If the task is being marked as complete (not already checked and no xp gained from completion), prepare to update stats
-    const isCompleting = task && !task.checked && !task.xpGained;
+    const isCompleting = task && !task.checked
     
     // Update task status
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
@@ -161,6 +160,14 @@ const toggleTask = async (id) => {
         if (task.difficulty === "Medium") xpAmount = 20;
         if (task.difficulty === "Hard") xpAmount = 30;
         
+        // Update the stat based on the task's socialstat value
+        await updateStat(task.socialstat, xpAmount);
+      }
+      else {
+        let xpAmount = -10; // Default for Easy
+        if (task.difficulty === "Medium") xpAmount = -20;
+        if (task.difficulty === "Hard") xpAmount = -30;
+
         // Update the stat based on the task's socialstat value
         await updateStat(task.socialstat, xpAmount);
       }
