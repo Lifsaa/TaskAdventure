@@ -27,7 +27,6 @@ router.post("/", authenticateUser, async (req, res) => {
       difficulty,
       socialstat,
       checked: false,
-      xpGained: false,
       userId: req.userId,
     });
     await newTask.save();
@@ -44,7 +43,6 @@ router.put("/:id", authenticateUser, async (req, res) => {
     const task = await Task.findOne({ _id: id, userId: req.userId });
     if (!task) return res.status(404).send("Task not found");
     task.checked = !task.checked;
-    task.xpGained = true;
     await task.save();
     res.json(task);
   } catch (error) {
