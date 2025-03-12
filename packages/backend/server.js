@@ -26,43 +26,40 @@ mongoose
     process.exit(1);
   });
 
-  //Task Stat Schema
-  const taskSchema = new mongoose.Schema({
-    label: String,
-    date: String,
-    difficulty: String,
-    socialstat: String,
-    checked: Boolean,
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  });
-  const Task = mongoose.model("Task", taskSchema);
-  
-  //Social Stat Schema
-  const socialstatSchema = new mongoose.Schema({
-    name: String,
-    lv: Number,
-    xpNextLevel: Number,
-    xpGainedThisLv: Number,
-    totalXpGained: Number,
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  });
-  const SocialStat = mongoose.model("SocialStat", taskSchema);
+//Task Stat Schema
+const taskSchema = new mongoose.Schema({
+  label: String,
+  date: String,
+  difficulty: String,
+  socialstat: String,
+  checked: Boolean,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+});
+const Task = mongoose.model("Task", taskSchema);
+
+//Social Stat Schema
+const socialstatSchema = new mongoose.Schema({
+  name: String,
+  lv: Number,
+  xpNextLevel: Number,
+  xpGainedThisLv: Number,
+  totalXpGained: Number,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+});
+const SocialStat = mongoose.model("SocialStat", taskSchema);
 
 // Contact Schema
 
-const contactSchema = new mongoose.Schema(
-  {
-    name:String,
-    email:String,
-    message: String,
-    createdAt: {type:Date, default:Date.now},
-  }
-);
+const contactSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
+  createdAt: { type: Date, default: Date.now },
+});
 const Contact = mongoose.model("Contact", contactSchema);
 
-app.post("/contact", async (req,res)=>
-{
-  const {name, email,message} = req.body;
+app.post("/contact", async (req, res) => {
+  const { name, email, message } = req.body;
   if (!name || !email || !message) {
     return res.status(400).send("All fields are required.");
   }
@@ -74,7 +71,6 @@ app.post("/contact", async (req,res)=>
     res.status(500).send("Server error");
   }
 });
-
 
 // Authentication Routes
 app.post("/signup", registerUser);
@@ -127,7 +123,8 @@ app.delete("/tasks/:id", authenticateUser, async (req, res) => {
   const { id } = req.params;
   try {
     const result = await Task.deleteOne({ _id: id, userId: req.userId });
-    if (result.deletedCount === 0) return res.status(404).send("Task not found");
+    if (result.deletedCount === 0)
+      return res.status(404).send("Task not found");
     res.status(204).send();
   } catch (error) {
     res.status(500).send("Server error");
