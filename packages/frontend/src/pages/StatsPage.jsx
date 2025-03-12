@@ -12,17 +12,17 @@ const StatsPage = ({ token }) => {
   useEffect(() => {
     let isMounted = true;
     let initializationAttempted = false;
-  
+
     const fetchStats = async () => {
       if (!isMounted) return;
-      
+
       try {
         const response = await fetch(`${API_BASE_URL}/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         if (!isMounted) return;
-  
+
         if (response.ok) {
           const data = await response.json();
           if (data.length === 0 && !initializationAttempted) {
@@ -39,7 +39,7 @@ const StatsPage = ({ token }) => {
         console.error("Fetch error:", error);
       }
     };
-  
+
     const initializeStats = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
@@ -49,9 +49,9 @@ const StatsPage = ({ token }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (!isMounted) return;
-  
+
         if (!response.ok && response.status !== 409) {
           console.error("Error initializing stats");
         }
@@ -59,16 +59,16 @@ const StatsPage = ({ token }) => {
         console.error("Error during stats initialization:", error);
       }
     };
-  
+
     const fetchData = async () => {
       await fetchStats();
       if (isMounted) {
         await fetchTasks();
       }
     };
-  
+
     fetchData();
-  
+
     return () => {
       isMounted = false;
     };

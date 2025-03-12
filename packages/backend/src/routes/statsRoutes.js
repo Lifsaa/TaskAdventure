@@ -2,13 +2,9 @@ import express from "express";
 import { Stats } from "../models/Stats.js";
 import { authenticateUser } from "../middleware/auth.js";
 
-
-
 const router = express.Router();
 
-
 let initializationInProgress = {};
-
 
 const defaultStats = [
   { name: "Creativity", xp: 0, color: "#3b82f6" },
@@ -32,14 +28,16 @@ router.get("/", authenticateUser, async (req, res) => {
 router.post("/initialize-stats", authenticateUser, async (req, res) => {
   try {
     const userId = req.userId;
-    
+
     // Check if initialization is already in progress for this user
     if (initializationInProgress[userId]) {
-      return res.status(409).json({ message: "Initialization already in progress" });
+      return res
+        .status(409)
+        .json({ message: "Initialization already in progress" });
     }
-    
+
     initializationInProgress[userId] = true;
-    
+
     // Check if stats already exist for this user
     const existingStats = await Stats.find({ userId });
     if (existingStats.length > 0) {
@@ -56,7 +54,7 @@ router.post("/initialize-stats", authenticateUser, async (req, res) => {
     }));
 
     const newStats = await Stats.insertMany(statsToCreate);
-    
+
     initializationInProgress[userId] = false;
     res.status(201).json(newStats);
   } catch (error) {
