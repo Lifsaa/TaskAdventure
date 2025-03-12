@@ -10,20 +10,27 @@ const StatsPage = ({ token }) => {
   const [totalLevel, setTotalLevel] = useState(1);
 
   useEffect(() => {
+    let isMounted = true;
+    let initializationAttempted = false;
+
     const fetchStats = async () => {
+      if (!isMounted) return;
+
       try {
         const response = await fetch(`${API_BASE_URL}/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        if (!isMounted) return;
+
         if (response.ok) {
           const data = await response.json();
-          if (data.length === 0) {
+          if (data.length === 0 && !initializationAttempted) {
+            initializationAttempted = true;
             await initializeStats();
+            await fetchStats();
           } else {
-            const processedStats = processStats(data);
-            setStats(processedStats);
-            calculateTotalXpAndLevel(processedStats);
+            setStats(processStats(data));
           }
         } else {
           console.error("Error fetching stats");
@@ -33,33 +40,39 @@ const StatsPage = ({ token }) => {
       }
     };
 
-    if (token) {
-      fetchStats();
-    }
-  }, [token]);
+    const initializeStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  const initializeStats = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        if (!isMounted) return;
 
-      if (response.ok) {
-        const newStats = await response.json();
-        const processedStats = processStats(newStats);
-        setStats(processedStats);
-        calculateTotalXpAndLevel(processedStats);
-      } else {
-        console.error("Error initializing stats");
+        if (!response.ok && response.status !== 409) {
+          console.error("Error initializing stats");
+        }
+      } catch (error) {
+        console.error("Error during stats initialization:", error);
       }
-    } catch (error) {
-      console.error("Error during stats initialization:", error);
-    }
-  };
+    };
+
+    const fetchData = async () => {
+      await fetchStats();
+      if (isMounted) {
+        await fetchTasks();
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [token, API_BASE_URL]);
 
   const processStats = (stats) => {
     return stats.map((stat) => ({
