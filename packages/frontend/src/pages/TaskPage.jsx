@@ -24,7 +24,7 @@ const TaskPage = ({ token }) => {
   const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
 
   useEffect(() => {
-    //Fetches stats from backend to initialize them
+    // Fetches stats from backend to initialize them
     const fetchStats = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/stats`, {
@@ -34,7 +34,11 @@ const TaskPage = ({ token }) => {
         if (response.ok) {
           const data = await response.json();
           if (data.length === 0) {
-            await initializeStats();
+            const initializedStats = await initializeStats();
+            // Only set stats if initialization was successful
+            if (initializedStats) {
+              setStats(initializedStats);
+            }
           } else {
             setStats(processStats(data));
           }
@@ -43,6 +47,30 @@ const TaskPage = ({ token }) => {
         }
       } catch (error) {
         console.error("Fetch error:", error);
+      }
+    };
+
+    // Modify initializeStats to return processed stats
+    const initializeStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const newStats = await response.json();
+          return processStats(newStats);
+        } else {
+          console.error("Error initializing stats");
+          return null;
+        }
+      } catch (error) {
+        console.error("Error during stats initialization:", error);
+        return null;
       }
     };
     // Fetch tasks from the backend
@@ -61,32 +89,15 @@ const TaskPage = ({ token }) => {
         console.error("Fetch error:", error);
       }
     };
-    fetchStats();
-    fetchTasks();
+
+    // First fetch stats, then fetch tasks
+    const fetchData = async () => {
+      await fetchStats();
+      await fetchTasks();
+    };
+
+    fetchData();
   }, [token]);
-
-  //Initializes stats if not set up yet
-  const initializeStats = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const newStats = await response.json();
-        const processedStats = processStats(newStats);
-        setStats(processedStats);
-      } else {
-        console.error("Error initializing stats");
-      }
-    } catch (error) {
-      console.error("Error during stats initialization:", error);
-    }
-  };
 
   //Processes stats
   const processStats = (stats) => {
