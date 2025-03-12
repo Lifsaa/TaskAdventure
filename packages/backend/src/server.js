@@ -9,6 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
+dotenv.config({ path: "../.env" });
 
 const app = express();
 app.use(cors());
