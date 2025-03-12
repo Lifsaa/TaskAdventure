@@ -43,11 +43,11 @@ router.post("/initialize-stats", authenticateUser, async (req, res) => {
     }
 
     // Create an array of stat objects to insert
-    const statsToCreate = defaultStats.map(stat => ({
+    const statsToCreate = defaultStats.map((stat) => ({
       name: stat.name,
       xp: stat.xp,
       color: stat.color,
-      userId
+      userId,
     }));
 
     // Insert all stats at once
@@ -73,7 +73,7 @@ router.put("/update", authenticateUser, async (req, res) => {
 
     // Find the specific stat document
     const stat = await Stats.findOne({ userId, name: statName });
-    
+
     if (!stat) {
       return res.status(404).json({ message: "Stat not found" });
     }
@@ -99,8 +99,8 @@ router.get("/total-xp-level", authenticateUser, async (req, res) => {
     const stats = await Stats.find({ userId });
     const totalXp = stats.reduce((sum, stat) => sum + stat.xp, 0);
 
-    // Calculate level (every 100 XP = 1 level up)
-    const totalLevel = Math.floor(totalXp / 100) + 1;
+    // Calculate level (every 500 XP = 1 level up)
+    const totalLevel = Math.floor(totalXp / 500) + 1;
 
     res.json({ totalXp, totalLevel });
   } catch (error) {
@@ -108,7 +108,5 @@ router.get("/total-xp-level", authenticateUser, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
-
 
 export default router;

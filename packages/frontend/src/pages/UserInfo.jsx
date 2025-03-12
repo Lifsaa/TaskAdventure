@@ -167,7 +167,7 @@ const UserInfo = ({ token }) => {
 
       {/* Total Level */}
       <Typography variant="h6" sx={{ textAlign: "left", marginTop: "20px" }}>
-        🏆 Total Level
+        🏆 Overall Level
       </Typography>
       <Typography
         sx={{
