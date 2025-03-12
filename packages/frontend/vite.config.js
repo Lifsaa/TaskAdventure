@@ -14,6 +14,7 @@ export default defineConfig({
           "https://taskadventure-d4eqd3hefccfhmdp.westus-01.azurewebsites.net",
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
