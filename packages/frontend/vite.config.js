@@ -10,8 +10,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target:
-          "https://taskadventure-d4eqd3hefccfhmdp.westus-01.azurewebsites.net",
+        target: "https://taskadventure.onrender.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
