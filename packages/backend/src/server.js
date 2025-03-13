@@ -8,7 +8,6 @@ import contactRoutes from "./routes/contactRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
-dotenv.config();
 dotenv.config({ path: "../.env" });
 
 const app = express();
@@ -37,6 +36,10 @@ app.use("/tasks", taskRoutes);
 app.use("/stats", statsRoutes);
 app.use("/contact", contactRoutes);
 app.use("/user", userRoutes);
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 // Authentication Routes
 app.use("/auth", authRoutes);
