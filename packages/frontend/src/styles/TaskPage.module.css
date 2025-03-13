@@ -1,5 +1,4 @@
-/* Base Container */
-.task-container {
+Base Container .task-container {
   max-width: 700px;
   margin: 50px auto;
   padding: 20px;
@@ -127,6 +126,15 @@
   font-size: 12px;
 }
 
+/* Social Stat Badge */
+.socialstat {
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
 /* Red Delete Button */
 .delete-btn {
   background: #ff4d4d;
@@ -143,9 +151,8 @@
 }
 /* Align empty task messages to the left */
 .empty-message {
-    text-align: left;
-    font-size: 1rem;
-    color: #555;
-    margin-left: 20px;
-  }
-  
+  text-align: left;
+  font-size: 1rem;
+  color: #555;
+  margin-left: 20px;
+}

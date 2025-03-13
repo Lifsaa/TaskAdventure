@@ -16,8 +16,8 @@ router.get("/", authenticateUser, async (req, res) => {
 
 // Create a new task
 router.post("/", authenticateUser, async (req, res) => {
-  const { label, date, difficulty } = req.body;
-  if (!label || !date || !difficulty)
+  const { label, date, difficulty, socialstat } = req.body;
+  if (!label || !date || !difficulty || !socialstat)
     return res.status(400).send("Missing fields");
 
   try {
@@ -25,6 +25,7 @@ router.post("/", authenticateUser, async (req, res) => {
       label,
       date,
       difficulty,
+      socialstat,
       checked: false,
       userId: req.userId,
     });
@@ -58,6 +59,21 @@ router.delete("/:id", authenticateUser, async (req, res) => {
       return res.status(404).send("Task not found");
     res.status(204).send();
   } catch (error) {
+    res.status(500).send("Server error");
+  }
+});
+
+// Get task counts for authenticated user
+router.get("/count", authenticateUser, async (req, res) => {
+  try {
+    const totalTasks = await Task.countDocuments({ userId: req.userId });
+    const completedTasks = await Task.countDocuments({
+      userId: req.userId,
+      checked: true,
+    });
+    res.json({ totalTasks, completedTasks });
+  } catch (error) {
+    console.error("Error fetching task counts:", error);
     res.status(500).send("Server error");
   }
 });

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styles from "../styles/TaskPage.module.css";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -14,6 +13,7 @@ import {
 import { Delete as DeleteIcon } from "@mui/icons-material";
 
 const TaskPage = ({ token }) => {
+  const [stats, setStats] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState("");
@@ -23,8 +23,57 @@ const TaskPage = ({ token }) => {
 
   const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
 
-  // Fetch tasks from the backend
   useEffect(() => {
+    // Fetches stats from backend to initialize them
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stats`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length === 0) {
+            const initializedStats = await initializeStats();
+            // Only set stats if initialization was successful
+            if (initializedStats) {
+              setStats(initializedStats);
+            }
+          } else {
+            setStats(processStats(data));
+          }
+        } else {
+          console.error("Error fetching stats");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    // Modify initializeStats to return processed stats
+    const initializeStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stats/initialize-stats`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const newStats = await response.json();
+          return processStats(newStats);
+        } else {
+          console.error("Error initializing stats");
+          return null;
+        }
+      } catch (error) {
+        console.error("Error during stats initialization:", error);
+        return null;
+      }
+    };
+    // Fetch tasks from the backend
     const fetchTasks = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/tasks`, {
@@ -40,8 +89,25 @@ const TaskPage = ({ token }) => {
         console.error("Fetch error:", error);
       }
     };
-    fetchTasks();
+
+    // First fetch stats, then fetch tasks
+    const fetchData = async () => {
+      await fetchStats();
+      await fetchTasks();
+    };
+
+    fetchData();
   }, [token]);
+
+  //Processes stats
+  const processStats = (stats) => {
+    return stats.map((stat) => ({
+      ...stat,
+      level: Math.ceil((stat.xp + 0.1) / 100),
+      xpRemaining: stat.xp % 100,
+      maxXp: 100,
+    }));
+  };
 
   // Add a new task
   const addTask = async () => {
@@ -76,19 +142,68 @@ const TaskPage = ({ token }) => {
     }
   };
 
-  // Toggle task checked status
+  // Toggle task checked status and update stats
   const toggleTask = async (id) => {
     try {
+      // First get the task to check its current state
+      const task = tasks.find((t) => t._id === id);
+
+      // If the task is being marked as complete (not already checked and no xp gained from completion), prepare to update stats
+      const isCompleting = task && !task.checked;
+
+      // Update task status
       const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
+
       if (response.ok) {
         const updatedTask = await response.json();
         setTasks(tasks.map((task) => (task._id === id ? updatedTask : task)));
+
+        // If completing the task, update the corresponding stat
+        if (isCompleting) {
+          // Determine XP amount based on difficulty
+          let xpAmount = 10; // Default for Easy
+          if (task.difficulty === "Medium") xpAmount = 20;
+          if (task.difficulty === "Hard") xpAmount = 30;
+
+          // Update the stat based on the task's socialstat value
+          await updateStat(task.socialstat, xpAmount);
+        } else {
+          let xpAmount = -10; // Default for Easy
+          if (task.difficulty === "Medium") xpAmount = -20;
+          if (task.difficulty === "Hard") xpAmount = -30;
+
+          // Update the stat based on the task's socialstat value
+          await updateStat(task.socialstat, xpAmount);
+        }
       }
     } catch (error) {
       console.error("Error updating task:", error);
+    }
+  };
+
+  // Update a specific stat
+  const updateStat = async (statName, xpAmount) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/stats/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          statName: statName,
+          xpAmount: xpAmount,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Error updating stat");
+      }
+    } catch (error) {
+      console.error("Error updating stat:", error);
     }
   };
 
@@ -126,6 +241,25 @@ const TaskPage = ({ token }) => {
         return "#ff9800";
       case "Hard":
         return "#f44336";
+      default:
+        return "#9e9e9e";
+    }
+  };
+  // Get social stat color
+  const getSocialStatColor = (socialstat) => {
+    switch (socialstat) {
+      case "Creativity":
+        return "#3ba8f6";
+      case "Healthfulness":
+        return "#278a58";
+      case "Kindness":
+        return "#f43f5e";
+      case "Intelligence":
+        return "#a88aed";
+      case "Sociability":
+        return "#f5c20b";
+      case "Skillfulness":
+        return "#876148";
       default:
         return "#9e9e9e";
     }
@@ -230,7 +364,7 @@ const TaskPage = ({ token }) => {
           <MenuItem value="Healthfulness">Healthfulness</MenuItem>
           <MenuItem value="Intelligence">Intelligence</MenuItem>
           <MenuItem value="Kindness">Kindness</MenuItem>
-          <MenuItem value="Proficiency">Proficiency</MenuItem>
+          <MenuItem value="Skillfulness">Skillfulness</MenuItem>
           <MenuItem value="Sociability">Sociability</MenuItem>
         </Select>
         <Button
@@ -291,6 +425,18 @@ const TaskPage = ({ token }) => {
               />
               {task.label} - {task.date}
             </label>
+            <span
+              className="difficulty"
+              style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
+            >
+              {task.difficulty}
+            </span>
+            <span
+              className="socialstat"
+              style={{ backgroundColor: getSocialStatColor(task.socialstat) }}
+            >
+              {task.socialstat}
+            </span>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <IconButton onClick={() => removeTask(task._id)} color="error">
                 <DeleteIcon />
@@ -347,6 +493,19 @@ const TaskPage = ({ token }) => {
                 {task.label} - {task.date}
               </Typography>
             </label>
+            <span
+              className="difficulty"
+              style={{ backgroundColor: getDifficultyColor(task.difficulty) }}
+            >
+              {task.difficulty}
+            </span>
+
+            <span
+              className="socialstat"
+              style={{ backgroundColor: getSocialStatColor(task.socialstat) }}
+            >
+              {task.socialstat}
+            </span>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <IconButton onClick={() => removeTask(task._id)} color="error">
                 <DeleteIcon />

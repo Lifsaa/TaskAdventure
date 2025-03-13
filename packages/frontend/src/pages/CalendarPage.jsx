@@ -8,6 +8,7 @@ const CalendarPage = () => {
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
   const [taskDifficulty, setTaskDifficulty] = useState("Easy");
+  const [socialStat, setSocialStat] = useState("Intelligence");
 
   const handleAddTask = () => {
     if (!taskInput.trim()) return;
@@ -17,6 +18,7 @@ const CalendarPage = () => {
       text: taskInput,
       date: date.toISOString().split("T")[0],
       difficulty: taskDifficulty,
+      socialstat: socialStat,
     };
 
     setTasks([...tasks, newTask]);
@@ -73,6 +75,18 @@ const CalendarPage = () => {
           <option value="Easy">Easy</option>
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
+        </select>
+        <select
+          value={socialStat}
+          onChange={(e) => setSocialStat(e.target.value)}
+          className={styles.difficultySelect}
+        >
+          <option value="Creativity">Creativity</option>
+          <option value="Healthfulness">Healthfulness</option>
+          <option value="Intelligence">Intelligence</option>
+          <option value="Kindness">Kindness</option>
+          <option value="Skillfulness">Skillfulness</option>
+          <option value="Sociability">Sociability</option>
         </select>
         <button onClick={handleAddTask} className={styles.addTaskButton}>
           Add Task
