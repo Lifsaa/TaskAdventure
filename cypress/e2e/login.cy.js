@@ -1,36 +1,29 @@
 describe("User Login", () => {
-    it("logs in successfully and accesses protected routes", () => {
-      cy.visit("/login");
-  
-      // Fill out login form
-      cy.get('input[name="username"]').type("sue");
-      cy.get('input[name="password"]').type("123");
-      cy.get('button[type="submit"]').click();
-  
-      // Wait for API response
-      cy.wait(1000);
-  
-      // Verify token is stored in localStorage
-      cy.window().then((win) => {
-        const token = win.localStorage.getItem("token");
-        expect(token).to.exist;
-      });
-  
-      // Check redirection to tasks page
-      cy.url().should("include", "/tasks");
-      cy.contains("Task Page").should("be.visible");
-    });
-  
-    it("rejects incorrect login credentials", () => {
-      cy.visit("/login");
-  
-      // Enter wrong credentials
-      cy.get('input[name="username"]').type("wronguser");
-      cy.get('input[name="password"]').type("wrongpassword");
-      cy.get('button[type="submit"]').click();
-  
-      // Verify error message appears
-      cy.contains("Invalid credentials").should("be.visible");
-    });
+  beforeEach(() => {
+    cy.visit("/login");
   });
-  
+
+  it("logs in successfully and redirects to tasks page", () => {
+    cy.get('input[type="text"]').type("sue"); // Username field
+    cy.get('input[type="password"]').type("123"); // Password field
+    cy.get('button[type="submit"]').click(); // Log In button
+
+    // Verify token is stored
+    cy.window().then((win) => {
+      expect(win.localStorage.getItem("token")).to.exist;
+    });
+
+    // Ensure redirection
+    cy.url().should("include", "/tasks");
+    cy.contains("⚔️ Task Adventure").should("be.visible");
+  });
+
+  it("rejects incorrect login credentials", () => {
+    cy.get('input[type="text"]').type("wronguser");
+    cy.get('input[type="password"]').type("wrongpassword");
+    cy.get('button[type="submit"]').click();
+
+    // Verify error message
+    cy.contains("Invalid credentials").should("be.visible");
+  });
+});
