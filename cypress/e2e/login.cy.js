@@ -4,8 +4,8 @@ describe("User Login", () => {
   });
 
   it("logs in successfully and redirects to tasks page", () => {
-    cy.get('input[type="text"]').type("sue"); // Username field
-    cy.get('input[type="password"]').type("123"); // Password field
+    cy.get('input[type="text"]').type("yo"); // Username field
+    cy.get('input[type="password"]').type("yo"); // Password field
     cy.get('button[type="submit"]').click(); // Log In button
 
     // Verify token is stored
