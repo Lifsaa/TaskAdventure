@@ -45,3 +45,4 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: '--prod --yes'
+          vercel-project-name: 'task-adventure-frontend'
