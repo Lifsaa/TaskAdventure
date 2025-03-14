@@ -20,13 +20,13 @@ const PORT = process.env.PORT || 5001;
 
 // Ensure MONGO_URI is properly set
 if (!mongoURI) {
-  console.error("ONGO_URI is not defined in .env");
+  console.error("MONGO_URI is not defined in .env");
   process.exit(1);
 }
 
 // Connect to MongoDB
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => {
     console.error("MongoDB connection error:", err);
@@ -48,4 +48,6 @@ app.get("/api/health", (req, res) => {
 // Authentication Routes
 app.use("/api/auth", authRoutes);
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`),
+);
