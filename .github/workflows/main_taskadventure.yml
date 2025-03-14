@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: read  
 
     steps:
       - uses: actions/checkout@v4
@@ -51,6 +51,9 @@ jobs:
       contents: read
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -63,4 +66,4 @@ jobs:
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          production: true
+          vercel-args: '--prod'
