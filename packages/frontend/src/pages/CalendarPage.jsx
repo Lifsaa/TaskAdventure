@@ -9,11 +9,11 @@ const CalendarPage = ({ token }) => {
   const [taskInput, setTaskInput] = useState("");
   const [taskDifficulty, setTaskDifficulty] = useState("Easy");
   const [socialStat, setSocialStat] = useState("Intelligence");
-  
-  const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL || "http://localhost:5001/api";
-console.log("API_BASE_URL from env:", import.meta.env.VITE_API_BACKEND_URL);
-console.log("Final API_BASE_URL used:", API_BASE_URL);
 
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BACKEND_URL || "http://localhost:5001/api";
+  console.log("API_BASE_URL from env:", import.meta.env.VITE_API_BACKEND_URL);
+  console.log("Final API_BASE_URL used:", API_BASE_URL);
 
   useEffect(() => {
     if (!token) return;
@@ -63,7 +63,7 @@ console.log("Final API_BASE_URL used:", API_BASE_URL);
       if (response.ok) {
         const newTaskFromServer = await response.json();
         setTasks([...tasks, newTaskFromServer]);
-        setTaskInput(""); 
+        setTaskInput("");
       } else {
         console.error("Failed to add task");
       }

@@ -57,8 +57,12 @@ router.put("/:id", authenticateUser, async (req, res) => {
 router.delete("/:id", authenticateUser, async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await CalendarEvent.deleteOne({ _id: id, userId: req.userId });
-    if (result.deletedCount === 0) return res.status(404).send("Event not found");
+    const result = await CalendarEvent.deleteOne({
+      _id: id,
+      userId: req.userId,
+    });
+    if (result.deletedCount === 0)
+      return res.status(404).send("Event not found");
     res.status(204).send();
   } catch (error) {
     res.status(500).send("Server error");
@@ -68,7 +72,9 @@ router.delete("/:id", authenticateUser, async (req, res) => {
 // Get event counts for the authenticated user
 router.get("/count", authenticateUser, async (req, res) => {
   try {
-    const totalEvents = await CalendarEvent.countDocuments({ userId: req.userId });
+    const totalEvents = await CalendarEvent.countDocuments({
+      userId: req.userId,
+    });
     res.json({ totalEvents });
   } catch (error) {
     console.error("Error fetching event counts:", error);
