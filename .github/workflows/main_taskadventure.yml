@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - taskadventure
+name: Build and deploy Node.js app to Vercel - taskadventure
 
 on:
   push:
@@ -13,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +36,7 @@ jobs:
         with:
           name: node-app
           path: packages/backend/release.zip
+
       - name: List files in backend folder
         run: ls -la
         working-directory: packages/backend
@@ -48,10 +46,9 @@ jobs:
     needs: build
     environment:
       name: "Production"
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
@@ -62,17 +59,8 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      - name: Login to Azure
-        uses: azure/login@v2
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_095BB63BAF4947E2A810ECEA2F09BF66 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CFDCC3A77AAA4B62B853B29FB38B68FA }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D703CB67B6FE4E8280FF426BE86F099B }}
-
-      - name: "Deploy to Azure Web App"
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: "taskadventure"
-          slot-name: "Production"
-          package: .
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          production: true
