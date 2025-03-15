@@ -9,7 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import calendarRoutes from "./routes/calendarRoutes.js";
 
-dotenv.config({ path: "../.env" }); // Load environment variables
+dotenv.config(); // Load environment variables
 
 const app = express();
 app.use(cors());
