@@ -22,7 +22,7 @@ const Login = ({ setToken }) => {
       if (response.ok) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
-        localStorage.setItem("username", username); 
+        localStorage.setItem("username", username);
         navigate("/tasks");
       } else {
         setMessage("Invalid credentials");
