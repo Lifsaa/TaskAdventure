@@ -6,10 +6,10 @@ For people of all ages who need the motivation to stay on top of their tasks, Ta
 https://task-adventure-frontend.vercel.app/
 (Our backend is hosted on Render, which may enter a sleep mode after periods of inactivity. Consequently, you may need to "warm it up" by clicking the link and waiting a few seconds for it to spin up before it fully responds. https://taskadventure.onrender.com/)
 
-## UI Prototype [2/13/24 - date last updated]
+## UI Prototype [2/14/25 - date last updated]
 [link](https://www.figma.com/design/mQtiIPuDZtMvq97HtfwKGC/CSC-307---TE3-Prototype?node-id=48-9256&t=xreCEQgiIpZlOMW3-1)
 
-## UML Diagram (2/22/24 - date last updated)
+## UML Diagram (2/28/25 - date last updated)
 [link](https://www.figma.com/board/omTntEmawcK9YPKbH4jduR/TE5-307-UML-diagram?node-id=0-1&t=6oSbw9z52GioCPRE-1)
 
 ## Dev Environment Setup:
