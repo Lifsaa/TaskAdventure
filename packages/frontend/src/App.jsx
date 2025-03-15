@@ -53,23 +53,55 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Applies global background & text colors */}
+      <CssBaseline />
       <Router>
         <Layout toggleDarkMode={toggleDarkMode} darkMode={darkMode}>
           <Routes>
+            {/* Public Routes */}
             <Route path="/login" element={<Login setToken={setToken} />} />
             <Route path="/signup" element={<Signup setToken={setToken} />} />
+
+            {/* Protected Routes - Only accessible if logged in */}
             <Route
               path="/"
               element={
                 token ? <TaskPage token={token} /> : <Navigate to="/login" />
               }
             />
-            <Route path="/tasks" element={<TaskPage token={token} />} />
-            <Route path="/calendar" element={<CalendarPage token={token} />} />
-            <Route path="/stats" element={<StatsPage token={token} />} />
+            <Route
+              path="/tasks"
+              element={
+                token ? <TaskPage token={token} /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                token ? (
+                  <CalendarPage token={token} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/stats"
+              element={
+                token ? <StatsPage token={token} /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/userinfo"
+              element={
+                token ? <UserInfo token={token} /> : <Navigate to="/login" />
+              }
+            />
+
+            {/* Contact Us page should be accessible to everyone */}
             <Route path="/contact" element={<ContactUsPage />} />
-            <Route path="/userinfo" element={<UserInfo token={token} />} />
+
+            {/* Redirect all other routes to login */}
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </Layout>
       </Router>
