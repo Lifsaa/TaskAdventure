@@ -36,7 +36,7 @@ router.post("/", authenticateUser, async (req, res) => {
   }
 });
 
-// Toggle task checked status
+// Toggle tasks checked status
 router.put("/:id", authenticateUser, async (req, res) => {
   const { id } = req.params;
   try {
