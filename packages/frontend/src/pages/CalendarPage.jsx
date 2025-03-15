@@ -1,31 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "../styles/CalendarPage.module.css";
 
-const CalendarPage = () => {
+const CalendarPage = ({ token }) => {
   const [date, setDate] = useState(new Date());
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
   const [taskDifficulty, setTaskDifficulty] = useState("Easy");
   const [socialStat, setSocialStat] = useState("Intelligence");
 
-  const handleAddTask = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
+
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/tasks`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setTasks(data);
+        } else {
+          console.error("Error fetching tasks");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [token]);
+
+  const handleAddTask = async () => {
+    console.log("Add task button clicked"); // Debugging
     if (!taskInput.trim()) return;
 
     const newTask = {
-      id: tasks.length + 1,
-      text: taskInput,
+      label: taskInput,
       date: date.toISOString().split("T")[0],
       difficulty: taskDifficulty,
       socialstat: socialStat,
+      checked: false,
     };
 
-    setTasks([...tasks, newTask]);
-    setTaskInput("");
+    try {
+      const response = await fetch(`${API_BASE_URL}/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (response.ok) {
+        const newTaskFromServer = await response.json();
+        setTasks([...tasks, newTaskFromServer]);
+        setTaskInput("");
+      } else {
+        console.error("Failed to add task");
+      }
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
-  // Get tasks for a specific date
   const getTileContent = ({ date }) => {
     const dateString = date.toISOString().split("T")[0];
     const tasksForDate = tasks.filter((task) => task.date === dateString);
@@ -33,9 +75,11 @@ const CalendarPage = () => {
     return (
       <div className={styles.taskIndicators}>
         {tasksForDate.map((task, index) => (
-          <span
+          <div
             key={index}
             className={`${styles.taskDot} ${styles[task.difficulty.toLowerCase()]}`}
+            data-tooltip={task.label}
+            title={task.label}
           />
         ))}
       </div>
