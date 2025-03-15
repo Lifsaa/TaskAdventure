@@ -10,10 +10,7 @@ const CalendarPage = ({ token }) => {
   const [taskDifficulty, setTaskDifficulty] = useState("Easy");
   const [socialStat, setSocialStat] = useState("Intelligence");
 
-  const API_BASE_URL =
-    import.meta.env.VITE_API_BACKEND_URL || "http://localhost:5001/api";
-  console.log("API_BASE_URL from env:", import.meta.env.VITE_API_BACKEND_URL);
-  console.log("Final API_BASE_URL used:", API_BASE_URL);
+  const API_BASE_URL = import.meta.env.VITE_API_BACKEND_URL;
 
   useEffect(() => {
     if (!token) return;
@@ -50,7 +47,6 @@ const CalendarPage = ({ token }) => {
     };
 
     try {
-      console.log("POST Request URL:", `${API_BASE_URL}/tasks`); // Debugging
       const response = await fetch(`${API_BASE_URL}/tasks`, {
         method: "POST",
         headers: {
