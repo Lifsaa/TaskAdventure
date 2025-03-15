@@ -17,8 +17,8 @@
     "dev:frontend": "cd packages/frontend && npm run dev",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "lint": "npx eslint . && npx prettier -check .",
-    "test": "npx jest --passWithNoTests"
+    "lint": "npx eslint . && npx prettier --check .",
+    "test": "npx cypress run"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -16,10 +16,19 @@ https://task-adventure-frontend.vercel.app/
 
 Install Node.js, NPM, and Mongosh. Create a Mongo Atlas account.
 Clone repo
-run npm install on both front and backend
+run npm install first on the root folder
+Then, run npm start to concurrently run the front end and back end
 run 'npm --prettier write .' for each time changes are made to front or backend
 pull request code to master to deploy to Vercel webapp
+
 for local testing, include all environment variables in .env files in front and backend
+
+Backend .env
+MONGO_URI=<your_mongo_connection_string>
+JWT_SECRET=<your_jwt_secret>
+
+Frontend .env 
+VITE_API_BASE_URL=http://localhost:5000/api
 
 ## Project Setup
 
@@ -44,30 +53,16 @@ for local testing, include all environment variables in .env files in front and 
 | Command          | Description                                                   |
 | ---------------- | ------------------------------------------------------------- |
 | `npm install`    | Installs all dependencies from `package.json`.                |
-| `npm run dev`    | Starts the backend server in development mode with `nodemon`. |
+| `npm nodemon src/server.js`    | Starts the backend server in development mode with `nodemon`. |
 | `npm start`      | Starts both the frontend and backend using `concurrently`.    |
-| `npm run format` | Formats all project files according to Prettier rules.        |
-| `npm run lint`   | Runs ESLint to check for code quality and linting errors.     |
+| `npm --prettier write .` | Formats all project files according to Prettier rules.        |
+| `npm run lint`   | Runs ESLint and prettier to check for code quality and linting errors.     |
 | `npm run test`   | Runs the project's tests (if tests are added later).          |
-
-### **Frontend Commands**
-
-| Command         | Description                                                |
-| --------------- | ---------------------------------------------------------- |
-| `npm start`     | Starts the React frontend application in development mode. |
-| `npm run build` | Builds the React application for production.               |
-| `npm run test`  | Runs tests for the React application (if applicable).      |
-
-### **Backend Commands**
-
-| Command        | Description                                                    |
-| -------------- | -------------------------------------------------------------- |
-| `npm run dev`  | Starts the backend server in development mode with `nodemon`.  |
-| `npm --prettier write .` | Runs Prettier and ESLint to check backend code for errors and style issues. |
+| `npm run dev`     | Starts the React frontend application in development mode. |
 
 ---
 
-## Folder Structure
+## Architecture (Folder Structure)
 
 ```
 TaskAdventure/
